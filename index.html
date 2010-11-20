@@ -17,9 +17,9 @@
 
             function getSoundData(t, size) {
                 var soundData = new Float32Array(size);
-                var freq = parseFloat(document.getElementById("freq").value);
+                var freq = parseFloat($("#id_freq").val());
                 if (freq) {
-                    var k = 2* Math.PI * freq / sampleRate;
+                    var k = 2 * Math.PI * freq / sampleRate;
                     for (var i=0; i<size; i++) {
                         soundData[i] = Math.sin(k * (i + t));
                     }
@@ -65,7 +65,7 @@
                     <input type="radio" name="tones" value="square"> Square
                 </td>
                 <td>
-                    <input type="text" size="4" id="freq" value="440"><label for="hz">Hz</label>
+                    <input type="text" size="4" id="id_freq" value="440"><label for="hz">Hz</label>
                 </td>
                 <td>
                     <button onclick="start()">play</button>
