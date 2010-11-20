@@ -58,9 +58,21 @@
 
     <body>
 
-        <input type="text" size="4" id="freq" value="440"><label for="hz">Hz</label>
-        <button onclick="start()">play</button>
-        <button onclick="stop()">stop</button>
-
+        <table>
+            <tr>
+                <td>
+                    <input type="radio" name="tones" value="sine" checked> Sine<br>
+                    <input type="radio" name="tones" value="square"> Square
+                </td>
+                <td>
+                    <input type="text" size="4" id="freq" value="440"><label for="hz">Hz</label>
+                </td>
+                <td>
+                    <button onclick="start()">play</button>
+                </td>
+                <td>
+                    <button onclick="stop()">stop</button>
+                </td>
+            </tr>
     </body>
 </html>
