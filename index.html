@@ -11,19 +11,22 @@
             var prebufferSize = sampleRate / 2;
             var play = false;
             var writeInterval = Math.floor(1000 * portionSize / sampleRate);
+            var twoPi = 2 * Math.PI;
 
             var audio;
             var currentWritePosition = 0;
 
-            function getSoundData(t, size) {
+            function getSoundData(offset, size) {
                 var soundData = new Float32Array(size);
                 var wave = $("#id_wave").val();
                 var freq = parseFloat($("#id_freq").val());
                 if (freq) {
-                    var k = 2 * Math.PI * freq / sampleRate;
-                    for (var i=0; i<size; i++) {
+                    var k = twoPi * freq / sampleRate;
+                    for (var i=0; i < size; i++) {
+                        var phase = (k * (i + offset)) % twoPi;
                         if (wave == "sine") {
-                            soundData[i] = Math.sin(k * (i + t));
+                            soundData[i] = Math.sin(phase);
+                        } else if (wave == "square") {
                         } else {
                             soundData[i] = 0;
                         }
