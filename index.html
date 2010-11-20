@@ -1,54 +1,63 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-  <head>
-    <title>Tone generator</title>
-  </head>
-  <body>
-    <input type="text" size="4" id="freq" value="440"><label for="hz">Hz</label>
-    <button onclick="start()">play</button>
-    <button onclick="stop()">stop</button>
+    <head>
+        <title>Tone generator</title>
 
-    <script type="text/javascript">
-      var sampleRate = 44100,
-          portionSize = sampleRate / 10,
-          prebufferSize = sampleRate / 2,
-          freq = undefined; // no sound
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 
-      var audio = new Audio();
-      audio.mozSetup(1, sampleRate, 1);
-      var currentWritePosition = 0;
+        <script type="text/javascript">
+            var sampleRate = 44100,
+            portionSize = sampleRate / 10,
+            prebufferSize = sampleRate / 2,
+            freq = undefined; // no sound
 
-      function getSoundData(t, size) {
-        var soundData = new Float32Array(size);
-        if (freq) {
-          var k = 2* Math.PI * freq / sampleRate;
-          for (var i=0; i<size; i++) {
-            soundData[i] = Math.sin(k * (i + t));
-          }
-        }
-        return soundData;
-      }
+            var audio = new Audio();
+            audio.mozSetup(1, sampleRate, 1);
+            var currentWritePosition = 0;
 
-      function writeData() {
-        while(audio.mozCurrentSampleOffset() + prebufferSize >= currentWritePosition) {
-          var soundData = getSoundData(currentWritePosition, portionSize);
-          audio.mozWriteAudio(soundData);
-          currentWritePosition += portionSize;
-        }
-      }
+            function getSoundData(t, size) {
+                var soundData = new Float32Array(size);
+                if (freq) {
+                    var k = 2* Math.PI * freq / sampleRate;
+                    for (var i=0; i<size; i++) {
+                        soundData[i] = Math.sin(k * (i + t));
+                    }
+                }
+                return soundData;
+            }
 
-      // initial write
-      writeData();
-      var writeInterval = Math.floor(1000 * portionSize / sampleRate);
-      setInterval(writeData, writeInterval);
+            function writeData() {
+                while(audio.mozCurrentSampleOffset() + prebufferSize >= currentWritePosition) {
+                    var soundData = getSoundData(currentWritePosition, portionSize);
+                    audio.mozWriteAudio(soundData);
+                    currentWritePosition += portionSize;
+                }
+            }
 
-      function start() {
-        freq = parseFloat(document.getElementById("freq").value);
-      }
+            function start() {
+                freq = parseFloat(document.getElementById("freq").value);
+            }
 
-      function stop() {
-        freq = undefined;
-      }
-  </script>
-  </body>
+            function stop() {
+                freq = undefined;
+            }
+
+            function init() {
+                // initial write
+                writeData();
+                var writeInterval = Math.floor(1000 * portionSize / sampleRate);
+                setInterval(writeData, writeInterval);
+            }
+
+            $(init);
+        </script>
+    </head>
+
+    <body>
+
+        <input type="text" size="4" id="freq" value="440"><label for="hz">Hz</label>
+        <button onclick="start()">play</button>
+        <button onclick="stop()">stop</button>
+
+    </body>
 </html>
