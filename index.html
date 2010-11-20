@@ -6,10 +6,11 @@
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 
         <script type="text/javascript">
-            var sampleRate = 44100,
-            portionSize = sampleRate / 10,
-            prebufferSize = sampleRate / 2,
-            freq = undefined; // no sound
+            var sampleRate = 44100;
+            var portionSize = sampleRate / 10;
+            var prebufferSize = sampleRate / 2;
+            var play = false;
+            var writeInterval = Math.floor(1000 * portionSize / sampleRate);
 
             var audio = new Audio();
             audio.mozSetup(1, sampleRate, 1);
@@ -17,6 +18,7 @@
 
             function getSoundData(t, size) {
                 var soundData = new Float32Array(size);
+                var freq = parseFloat(document.getElementById("freq").value);
                 if (freq) {
                     var k = 2* Math.PI * freq / sampleRate;
                     for (var i=0; i<size; i++) {
@@ -32,24 +34,20 @@
                     audio.mozWriteAudio(soundData);
                     currentWritePosition += portionSize;
                 }
+                if (play) {
+                    setTimeout(writeData, writeInterval);
+                }
             }
 
             function start() {
-                freq = parseFloat(document.getElementById("freq").value);
+                play = true;
+                setTimeout(writeData, writeInterval);
             }
 
             function stop() {
-                freq = undefined;
+                play = false;
             }
 
-            function init() {
-                // initial write
-                writeData();
-                var writeInterval = Math.floor(1000 * portionSize / sampleRate);
-                setInterval(writeData, writeInterval);
-            }
-
-            $(init);
         </script>
     </head>
 
