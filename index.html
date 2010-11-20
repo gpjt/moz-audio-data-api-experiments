@@ -12,8 +12,7 @@
             var play = false;
             var writeInterval = Math.floor(1000 * portionSize / sampleRate);
 
-            var audio = new Audio();
-            audio.mozSetup(1, sampleRate, 1);
+            var audio;
             var currentWritePosition = 0;
 
             function getSoundData(t, size) {
@@ -29,7 +28,7 @@
             }
 
             function writeData() {
-                while(audio.mozCurrentSampleOffset() + prebufferSize >= currentWritePosition) {
+                while (audio.mozCurrentSampleOffset() + prebufferSize >= currentWritePosition) {
                     var soundData = getSoundData(currentWritePosition, portionSize);
                     audio.mozWriteAudio(soundData);
                     currentWritePosition += portionSize;
@@ -48,6 +47,12 @@
                 play = false;
             }
 
+            function init() {
+                audio = new Audio();
+                audio.mozSetup(1, sampleRate, 1);
+            }
+
+            $(init);
         </script>
     </head>
 
