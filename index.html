@@ -17,11 +17,16 @@
 
             function getSoundData(t, size) {
                 var soundData = new Float32Array(size);
+                var wave = $("#id_wave").val();
                 var freq = parseFloat($("#id_freq").val());
                 if (freq) {
                     var k = 2 * Math.PI * freq / sampleRate;
                     for (var i=0; i<size; i++) {
-                        soundData[i] = Math.sin(k * (i + t));
+                        if (wave == "sine") {
+                            soundData[i] = Math.sin(k * (i + t));
+                        } else {
+                            soundData[i] = 0;
+                        }
                     }
                 }
                 return soundData;
@@ -61,7 +66,7 @@
         <table>
             <tr>
                 <td>
-                    <select>
+                    <select id="id_wave">
                         <option value="sine" checked>Sine</option>
                         <option value="square">Square</option>
                     </select>
