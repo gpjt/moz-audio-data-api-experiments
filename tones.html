@@ -44,7 +44,7 @@
 
             var sampleRate = 44100;
             var portionSize = sampleRate / 100;
-            var prebufferSize = sampleRate / 2;
+            var prebufferSize = sampleRate / 4;
             var play = false;
             var writeInterval = Math.floor(1000 * portionSize / sampleRate);
 
@@ -56,7 +56,7 @@
                 var soundData = new Float32Array(size);
                 var toneType = toneTypes[$("#id_wave").val()];
                 var freq = parseFloat($("#id_freq").val());
-                if (freq) {
+                if (freq && play) {
                     var k = 2 * Math.PI * freq / sampleRate;
                     for (var i=0; i < size; i++) {
                         var theta = (k * (i + offset)) % (2 * Math.PI);
@@ -72,14 +72,10 @@
                     audio.mozWriteAudio(soundData);
                     currentWritePosition += portionSize;
                 }
-                if (play) {
-                    setTimeout(writeData, writeInterval);
-                }
             }
 
             function start() {
                 play = true;
-                writeData();
             }
 
             function stop() {
@@ -96,6 +92,8 @@
 
                 $("#id_play").mousedown(start);
                 $("#id_play").mouseup(stop);
+
+                setInterval(writeData, writeInterval);
             }
 
             $(init);
