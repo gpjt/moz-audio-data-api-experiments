@@ -41,6 +41,36 @@
             };
 
 
+            function Note(startTime, attack, decay, sustain, release) {
+                this.startTime = startTime;
+                this.attack = attack;
+                this.decay = decay;
+                this.sustain = sustain;
+                this.release = release;
+                this.stopTime = 0;
+            }
+            Note.prototype.getAmplitude = function(offset) {
+                if (offset < this.startTime) {
+                    return 0;
+                }
+                var t = offset - this.startTime;
+                if (t < this.attack) {
+                    return t / this.attack;
+                }
+                if (t < this.decay) {
+                    return 1 - (((1 - this,sustain) * (t - this.attack)) / this.decay);
+                }
+                if (this.stopTime == 0) {
+                    return this.sustain;
+                }
+                if (offset < this.stopTime + this.release) {
+                    return this.sustain - ((this.sustain * (offset - this.stopTime)) / this.release);
+                }
+                return 0;
+            }
+
+
+
 
             var sampleRate = 44100;
             var portionSize = sampleRate / 100;
@@ -51,16 +81,19 @@
             var audio;
             var currentWritePosition = 0;
 
+            var note = null;
+
 
             function getSoundData(offset, size) {
                 var soundData = new Float32Array(size);
                 var toneType = toneTypes[$("#id_wave").val()];
                 var freq = parseFloat($("#id_freq").val());
-                if (freq && play) {
+                if (freq && note != null) {
                     var k = 2 * Math.PI * freq / sampleRate;
                     for (var i=0; i < size; i++) {
-                        var theta = (k * (i + offset)) % (2 * Math.PI);
-                        soundData[i] = toneType.generator(theta);
+                        var tick = (i + offset);
+                        var theta = (k * tick) % (2 * Math.PI);
+                        soundData[i] = toneType.generator(theta) * note.getAmplitude(tick);
                     }
                 }
                 return soundData;
@@ -75,11 +108,19 @@
             }
 
             function start() {
-                play = true;
+                note = new Note(
+                    currentWritePosition,
+                    parseFloat($("#id_attack").val()),
+                    parseFloat($("#id_decay").val()),
+                    parseFloat($("#id_sustain").val()),
+                    parseFloat($("#id_release").val())
+                );
             }
 
             function stop() {
-                play = false;
+                if (note != null) {
+                    note.stopTime = currentWritePosition;
+                }
             }
 
             function init() {
@@ -117,7 +158,7 @@
                     Attack:
                 </td>
                 <td>
-                    <input type="text" size="4" id="id_freq" value="0">ms
+                    <input type="text" size="4" id="id_attack" value="0"> ticks
                 </td>
             </tr>
             <tr>
@@ -125,7 +166,7 @@
                     Decay:
                 </td>
                 <td>
-                    <input type="text" size="4" id="id_freq" value="0">ms
+                    <input type="text" size="4" id="id_decay" value="0"> ticks
                 </td>
             </tr>
             <tr>
@@ -133,7 +174,7 @@
                     Sustain:
                 </td>
                 <td>
-                    <input type="text" size="4" id="id_freq" value="100">%
+                    <input type="text" size="4" id="id_sustain" value="1"> (amplitude, 0-1)
                 </td>
             </tr>
             <tr>
@@ -141,7 +182,7 @@
                     Release:
                 </td>
                 <td>
-                    <input type="text" size="4" id="id_freq" value="0">ms
+                    <input type="text" size="4" id="id_release" value="0"> ticks
                 </td>
             </tr>
             <tr>
