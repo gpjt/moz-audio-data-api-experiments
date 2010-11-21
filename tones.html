@@ -93,6 +93,9 @@
                 for (toneType in toneTypes) {
                     $("#id_wave").append('<option value="' + toneType + '">' + toneTypes[toneType].description + '</option>');
                 }
+
+                $("#id_play").mousedown(start);
+                $("#id_play").mouseup(stop);
             }
 
             $(init);
@@ -111,16 +114,14 @@
                     <input type="text" size="4" id="id_freq" value="440"><label for="hz">Hz</label>
                 </td>
                 <td>
-                    <button onclick="start()">play</button>
-                </td>
-                <td>
-                    <button onclick="stop()">stop</button>
+                    <button id="id_play">play</button>
                 </td>
             </tr>
         </table>
 
         <p>
         Based on <a href="https://wiki.mozilla.org/Audio_Data_API#Complete_Example:_Creating_a_Web_Based_Tone_Generator">this Firefox Audio Data API demo</a>.
+        Inspiration from <a href="http://forums.dv247.com/tips-n-tricks-general-production/1079-synthesis-101-basics.html">this synthesizer 101 post</a>.
 
         <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
