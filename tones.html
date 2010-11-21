@@ -43,7 +43,7 @@
 
 
             var sampleRate = 44100;
-            var portionSize = sampleRate / 10;
+            var portionSize = sampleRate / 100;
             var prebufferSize = sampleRate / 2;
             var play = false;
             var writeInterval = Math.floor(1000 * portionSize / sampleRate);
@@ -79,7 +79,7 @@
 
             function start() {
                 play = true;
-                setTimeout(writeData, writeInterval);
+                writeData();
             }
 
             function stop() {
