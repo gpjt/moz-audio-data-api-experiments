@@ -57,8 +57,8 @@
                 if (t < this.attack) {
                     return t / this.attack;
                 }
-                if (t < this.decay) {
-                    return 1 - (((1 - this,sustain) * (t - this.attack)) / this.decay);
+                if (t <= this.decay) {
+                    return 1 - (((1 - this.sustain) * (t - this.attack)) / this.decay);
                 }
                 if (this.stopTime == 0) {
                     return this.sustain;
