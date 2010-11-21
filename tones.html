@@ -6,6 +6,42 @@
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 
         <script type="text/javascript">
+            function ToneType(description, generator) {
+                this.description = description;
+                this.generator = generator;
+            }
+
+
+            var toneTypes = {
+                "sine" : new ToneType(
+                    "Sine", Math.sin
+                ),
+                "square" : new ToneType(
+                    "Square",
+                    function(theta) {
+                        if (0 <= theta && theta <= Math.PI) {
+                            return 1;
+                        } else if (Math.PI <= theta && theta <= 2 * Math.PI) {
+                            return -1;
+                        }
+                    }
+                ),
+                "triangle" : new ToneType(
+                    "Triangle",
+                    function(theta) { return 1 - 2 * Math.abs((theta / Math.PI) - 1) }
+                ),
+                "sawtooth" : new ToneType(
+                    "Sawtooth",
+                    function(theta) { return theta / (Math.PI * 2) }
+                ),
+                "noise" : new ToneType(
+                    "Noise",
+                    function() { return Math.random() * 2 - 1 }
+                )
+            };
+
+
+
             var sampleRate = 44100;
             var portionSize = sampleRate / 10;
             var prebufferSize = sampleRate / 2;
@@ -15,31 +51,16 @@
             var audio;
             var currentWritePosition = 0;
 
+
             function getSoundData(offset, size) {
                 var soundData = new Float32Array(size);
-                var wave = $("#id_wave").val();
+                var toneType = toneTypes[$("#id_wave").val()];
                 var freq = parseFloat($("#id_freq").val());
                 if (freq) {
                     var k = 2 * Math.PI * freq / sampleRate;
                     for (var i=0; i < size; i++) {
                         var theta = (k * (i + offset)) % (2 * Math.PI);
-                        if (wave == "sine") {
-                            soundData[i] = Math.sin(theta);
-                        } else if (wave == "square") {
-                            if (0 <= theta && theta <= Math.PI) {
-                                soundData[i] = 1;
-                            } else if (Math.PI <= theta && theta <= 2 * Math.PI) {
-                                soundData[i] = -1;
-                            }
-                        } else if (wave == "triangle") {
-                            soundData[i] = 1 - 2 * Math.abs((theta / Math.PI) - 1);
-                        } else if (wave == "sawtooth") {
-                            soundData[i] = theta / (Math.PI * 2);
-                        } else if (wave == "noise") {
-                            soundData[i] = Math.random() * 2 - 1;
-                        } else {
-                            soundData[i] = 0;
-                        }
+                        soundData[i] = toneType.generator(theta);
                     }
                 }
                 return soundData;
@@ -68,6 +89,10 @@
             function init() {
                 audio = new Audio();
                 audio.mozSetup(1, sampleRate, 1);
+
+                for (toneType in toneTypes) {
+                    $("#id_wave").append('<option value="' + toneType + '">' + toneTypes[toneType].description + '</option>');
+                }
             }
 
             $(init);
@@ -80,11 +105,6 @@
             <tr>
                 <td>
                     <select id="id_wave">
-                        <option value="sine" checked>Sine</option>
-                        <option value="square">Square</option>
-                        <option value="triangle">Triangle</option>
-                        <option value="sawtooth">Sawtooth</option>
-                        <option value="noise">Noise</option>
                     </select>
                 </td>
                 <td>
