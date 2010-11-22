@@ -41,12 +41,18 @@
             };
 
 
-            function Note(startTime, attack, decay, sustain, release) {
-                this.startTime = startTime;
+
+            function Voice(attack, decay, sustain, release) {
                 this.attack = attack;
                 this.decay = decay;
                 this.sustain = sustain;
                 this.release = release;
+            }
+
+
+            function Note(startTime, voice) {
+                this.startTime = startTime;
+                this.voice = voice;
                 this.requestedStopTime = 0;
                 this.actualStopTime = 0;
             }
@@ -55,22 +61,22 @@
                     return 0;
                 }
                 var t = offset - this.startTime;
-                if (t <= this.attack) {
-                    return t / this.attack;
+                if (t <= this.voice.attack) {
+                    return t / this.voice.attack;
                 }
-                if (t <= this.attack + this.decay) {
-                    return 1 - (((1 - this.sustain) * (t - this.attack)) / this.decay);
+                if (t <= this.voice.attack + this.voice.decay) {
+                    return 1 - (((1 - this.voice.sustain) * (t - this.voice.attack)) / this.voice.decay);
                 }
                 if (this.requestedStopTime == 0) {
-                    return this.sustain;
+                    return this.voice.sustain;
                 }
                 // We ignore requests to stop until the attack/decay is complete; this means that
                 // our release can actually start later than requested
                 if (this.actualStopTime == 0) {
                     this.actualStopTime = offset;
                 }
-                if (offset < this.actualStopTime + this.release) {
-                    return this.sustain - ((this.sustain * (offset - this.actualStopTime)) / this.release);
+                if (offset < this.actualStopTime + this.voice.release) {
+                    return this.voice.sustain - ((this.voice.sustain * (offset - this.actualStopTime)) / this.voice.release);
                 }
                 return 0;
             }
@@ -116,10 +122,12 @@
             function start() {
                 note = new Note(
                     currentWritePosition,
-                    parseFloat($("#id_attack").val()),
-                    parseFloat($("#id_decay").val()),
-                    parseFloat($("#id_sustain").val()),
-                    parseFloat($("#id_release").val())
+                    new Voice(
+                        parseFloat($("#id_attack").val()),
+                        parseFloat($("#id_decay").val()),
+                        parseFloat($("#id_sustain").val()),
+                        parseFloat($("#id_release").val())
+                    )
                 );
             }
 
