@@ -47,7 +47,8 @@
                 this.decay = decay;
                 this.sustain = sustain;
                 this.release = release;
-                this.stopTime = 0;
+                this.requestedStopTime = 0;
+                this.actualStopTime = 0;
             }
             Note.prototype.getAmplitude = function(offset) {
                 if (offset < this.startTime) {
@@ -60,11 +61,16 @@
                 if (t <= this.attack + this.decay) {
                     return 1 - (((1 - this.sustain) * (t - this.attack)) / this.decay);
                 }
-                if (this.stopTime == 0) {
+                if (this.requestedStopTime == 0) {
                     return this.sustain;
                 }
-                if (offset < this.stopTime + this.release) {
-                    return this.sustain - ((this.sustain * (offset - this.stopTime)) / this.release);
+                // We ignore requests to stop until the attack/decay is complete; this means that
+                // our release can actually start later than requested
+                if (this.actualStopTime == 0) {
+                    this.actualStopTime = offset;
+                }
+                if (offset < this.actualStopTime + this.release) {
+                    return this.sustain - ((this.sustain * (offset - this.actualStopTime)) / this.release);
                 }
                 return 0;
             }
@@ -119,7 +125,7 @@
 
             function stop() {
                 if (note != null) {
-                    note.stopTime = currentWritePosition;
+                    note.requestedStopTime = currentWritePosition;
                 }
             }
 
