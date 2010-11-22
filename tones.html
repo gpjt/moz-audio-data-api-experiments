@@ -42,7 +42,8 @@
 
 
 
-            function Voice(attack, decay, sustain, release) {
+            function Voice(oscillator, attack, decay, sustain, release) {
+                this.oscillator = oscillator;
                 this.attack = attack;
                 this.decay = decay;
                 this.sustain = sustain;
@@ -98,14 +99,13 @@
 
             function getSoundData(offset, size) {
                 var soundData = new Float32Array(size);
-                var oscillator = oscillators[$("#id_oscillator").val()];
                 var freq = parseFloat($("#id_freq").val());
                 if (freq && note != null) {
                     var k = 2 * Math.PI * freq / sampleRate;
                     for (var i=0; i < size; i++) {
                         var tick = (i + offset);
                         var theta = (k * tick) % (2 * Math.PI);
-                        soundData[i] = oscillator.generator(theta) * note.getAmplitude(tick);
+                        soundData[i] = note.voice.oscillator.generator(theta) * note.getAmplitude(tick);
                     }
                 }
                 return soundData;
@@ -123,6 +123,7 @@
                 note = new Note(
                     currentWritePosition,
                     new Voice(
+                        oscillators[$("#id_oscillator").val()],
                         parseFloat($("#id_attack").val()),
                         parseFloat($("#id_decay").val()),
                         parseFloat($("#id_sustain").val()),
