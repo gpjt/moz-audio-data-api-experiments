@@ -160,14 +160,21 @@
 
     <body>
 
+        <h1>A JavaScript tone generator</h1>
+
+        <p>
+        This page uses the <a href="https://wiki.mozilla.org/Audio_Data_API#Complete_Example:_Creating_a_Web_Based_Tone_Generator">Mozilla Audio Data API</a>,
+        present in <a href="http://www.mozilla.com/firefox/beta/">Firefox 4.0 beta 6 and later</a>.  As of this writing (21 Nov 2010) it won't work in other browsers :-(
+
+
         <table>
             <tr>
                 <td>
-                    <select id="id_oscillator">
-                    </select>
+                    Oscillator:
                 </td>
                 <td>
-                    <input type="text" size="4" id="id_freq" value="440"><label for="hz">Hz</label>
+                    <select id="id_oscillator">
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -175,7 +182,7 @@
                     Attack:
                 </td>
                 <td>
-                    <input type="text" size="4" id="id_attack" value="1000"> ms
+                    <input type="text" size="4" id="id_attack" value="35"> ms
                 </td>
             </tr>
             <tr>
@@ -183,7 +190,7 @@
                     Decay:
                 </td>
                 <td>
-                    <input type="text" size="4" id="id_decay" value="1000"> ms
+                    <input type="text" size="4" id="id_decay" value="35"> ms
                 </td>
             </tr>
             <tr>
@@ -199,7 +206,15 @@
                     Release:
                 </td>
                 <td>
-                    <input type="text" size="4" id="id_release" value="10000"> ms
+                    <input type="text" size="4" id="id_release" value="500"> ms
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Frequency:
+                </td>
+                <td>
+                    <input type="text" size="4" id="id_freq" value="440"><label for="hz">Hz</label>
                 </td>
             </tr>
             <tr>
