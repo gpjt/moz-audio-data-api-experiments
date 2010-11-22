@@ -6,17 +6,17 @@
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 
         <script type="text/javascript">
-            function ToneType(description, generator) {
+            function Oscillator(description, generator) {
                 this.description = description;
                 this.generator = generator;
             }
 
 
-            var toneTypes = {
-                "sine" : new ToneType(
+            var oscillators = {
+                "sine" : new Oscillator(
                     "Sine", Math.sin
                 ),
-                "square" : new ToneType(
+                "square" : new Oscillator(
                     "Square",
                     function(theta) {
                         if (0 <= theta && theta <= Math.PI) {
@@ -26,15 +26,15 @@
                         }
                     }
                 ),
-                "triangle" : new ToneType(
+                "triangle" : new Oscillator(
                     "Triangle",
                     function(theta) { return 1 - 2 * Math.abs((theta / Math.PI) - 1) }
                 ),
-                "sawtooth" : new ToneType(
+                "sawtooth" : new Oscillator(
                     "Sawtooth",
                     function(theta) { return theta / (Math.PI * 2) }
                 ),
-                "noise" : new ToneType(
+                "noise" : new Oscillator(
                     "Noise",
                     function() { return Math.random() * 2 - 1 }
                 )
@@ -92,14 +92,14 @@
 
             function getSoundData(offset, size) {
                 var soundData = new Float32Array(size);
-                var toneType = toneTypes[$("#id_wave").val()];
+                var oscillator = oscillators[$("#id_oscillator").val()];
                 var freq = parseFloat($("#id_freq").val());
                 if (freq && note != null) {
                     var k = 2 * Math.PI * freq / sampleRate;
                     for (var i=0; i < size; i++) {
                         var tick = (i + offset);
                         var theta = (k * tick) % (2 * Math.PI);
-                        soundData[i] = toneType.generator(theta) * note.getAmplitude(tick);
+                        soundData[i] = oscillator.generator(theta) * note.getAmplitude(tick);
                     }
                 }
                 return soundData;
@@ -133,8 +133,8 @@
                 audio = new Audio();
                 audio.mozSetup(1, sampleRate, 1);
 
-                for (toneType in toneTypes) {
-                    $("#id_wave").append('<option value="' + toneType + '">' + toneTypes[toneType].description + '</option>');
+                for (oscillator in oscillators) {
+                    $("#id_oscillator").append('<option value="' + oscillator + '">' + oscillators[oscillator].description + '</option>');
                 }
 
                 $("#id_play").mousedown(start);
@@ -152,7 +152,7 @@
         <table>
             <tr>
                 <td>
-                    <select id="id_wave">
+                    <select id="id_oscillator">
                     </select>
                 </td>
                 <td>
