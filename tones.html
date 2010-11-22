@@ -51,8 +51,9 @@
             }
 
 
-            function Note(startTime, voice) {
+            function Note(startTime, frequency, voice) {
                 this.startTime = startTime;
+                this.frequency = frequency;
                 this.voice = voice;
                 this.requestedStopTime = 0;
                 this.actualStopTime = 0;
@@ -99,9 +100,8 @@
 
             function getSoundData(offset, size) {
                 var soundData = new Float32Array(size);
-                var freq = parseFloat($("#id_freq").val());
-                if (freq && note != null) {
-                    var k = 2 * Math.PI * freq / sampleRate;
+                if (note != null) {
+                    var k = 2 * Math.PI * note.frequency / sampleRate;
                     for (var i=0; i < size; i++) {
                         var tick = (i + offset);
                         var theta = (k * tick) % (2 * Math.PI);
@@ -122,6 +122,7 @@
             function start() {
                 note = new Note(
                     currentWritePosition,
+                    parseFloat($("#id_freq").val()),
                     new Voice(
                         oscillators[$("#id_oscillator").val()],
                         parseFloat($("#id_attack").val()),
