@@ -54,6 +54,7 @@
             function Note(startTime, frequency, voice) {
                 this.startTime = startTime;
                 this.frequency = frequency;
+                this.radiansPerSample = 2 * Math.PI * frequency / sampleRate;
                 this.voice = voice;
                 this.requestedStopTime = 0;
                 this.actualStopTime = 0;
@@ -101,10 +102,9 @@
             function getSoundData(offset, size) {
                 var soundData = new Float32Array(size);
                 if (note != null) {
-                    var k = 2 * Math.PI * note.frequency / sampleRate;
                     for (var i=0; i < size; i++) {
                         var tick = (i + offset);
-                        var theta = (k * tick) % (2 * Math.PI);
+                        var theta = (note.radiansPerSample * tick) % (2 * Math.PI);
                         soundData[i] = note.voice.oscillator.generator(theta) * note.getAmplitude(tick);
                     }
                 }
