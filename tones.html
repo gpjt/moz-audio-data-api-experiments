@@ -54,7 +54,7 @@
                     return 0;
                 }
                 var t = offset - this.startTime;
-                if (t < this.attack) {
+                if (t <= this.attack) {
                     return t / this.attack;
                 }
                 if (t <= this.decay) {
