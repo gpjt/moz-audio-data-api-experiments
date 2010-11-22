@@ -83,6 +83,10 @@
                 }
                 return 0;
             }
+            Note.prototype.getSample = function(tick) {
+                var theta = (this.radiansPerSample * tick) % (2 * Math.PI);
+                return this.voice.oscillator.generator(theta) * this.getAmplitude(tick);
+            }
 
 
 
@@ -90,7 +94,6 @@
             var sampleRate = 44100;
             var portionSize = sampleRate / 100;
             var prebufferSize = sampleRate / 4;
-            var play = false;
             var writeInterval = Math.floor(1000 * portionSize / sampleRate);
 
             var audio;
@@ -103,9 +106,7 @@
                 var soundData = new Float32Array(size);
                 if (note != null) {
                     for (var i=0; i < size; i++) {
-                        var tick = (i + offset);
-                        var theta = (note.radiansPerSample * tick) % (2 * Math.PI);
-                        soundData[i] = note.voice.oscillator.generator(theta) * note.getAmplitude(tick);
+                        soundData[i] = note.getSample(i + offset);
                     }
                 }
                 return soundData;
