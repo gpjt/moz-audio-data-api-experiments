@@ -126,10 +126,10 @@
                     parseFloat($("#id_freq").val()),
                     new Voice(
                         oscillators[$("#id_oscillator").val()],
-                        parseFloat($("#id_attack").val()),
-                        parseFloat($("#id_decay").val()),
+                        (parseFloat($("#id_attack").val()) * sampleRate) / 1000,
+                        (parseFloat($("#id_decay").val()) * sampleRate) / 1000,
                         parseFloat($("#id_sustain").val()),
-                        parseFloat($("#id_release").val())
+                        (parseFloat($("#id_release").val()) * sampleRate) / 1000
                     )
                 );
             }
@@ -175,7 +175,7 @@
                     Attack:
                 </td>
                 <td>
-                    <input type="text" size="4" id="id_attack" value="1000"> ticks
+                    <input type="text" size="4" id="id_attack" value="1000"> ms
                 </td>
             </tr>
             <tr>
@@ -183,7 +183,7 @@
                     Decay:
                 </td>
                 <td>
-                    <input type="text" size="4" id="id_decay" value="1000"> ticks
+                    <input type="text" size="4" id="id_decay" value="1000"> ms
                 </td>
             </tr>
             <tr>
@@ -199,7 +199,7 @@
                     Release:
                 </td>
                 <td>
-                    <input type="text" size="4" id="id_release" value="10000"> ticks
+                    <input type="text" size="4" id="id_release" value="10000"> ms
                 </td>
             </tr>
             <tr>
