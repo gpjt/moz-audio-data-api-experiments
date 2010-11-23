@@ -1,48 +1,14 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
     <head>
-        <title>Tone generator</title>
+        <title>Tone generator: Audio Data API experiment</title>
 
         <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8" />
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+        <script type="text/javascript" src="oscillators.js"></script>
 
         <script type="text/javascript">
-            function Oscillator(description, generator) {
-                this.description = description;
-                this.generator = generator;
-            }
-
-
-            var oscillators = {
-                "sine" : new Oscillator(
-                    "Sine", Math.sin
-                ),
-                "square" : new Oscillator(
-                    "Square",
-                    function(theta) {
-                        if (0 <= theta && theta <= Math.PI) {
-                            return 1;
-                        } else if (Math.PI <= theta && theta <= 2 * Math.PI) {
-                            return -1;
-                        }
-                    }
-                ),
-                "triangle" : new Oscillator(
-                    "Triangle",
-                    function(theta) { return 1 - 2 * Math.abs((theta / Math.PI) - 1) }
-                ),
-                "sawtooth" : new Oscillator(
-                    "Sawtooth",
-                    function(theta) { return theta / (Math.PI * 2) }
-                ),
-                "noise" : new Oscillator(
-                    "Noise",
-                    function() { return Math.random() * 2 - 1 }
-                )
-            };
-
-
 
             function Voice(oscillator, attack, decay, sustain, release) {
                 this.oscillator = oscillator;
@@ -230,6 +196,9 @@
         Based on <a href="https://wiki.mozilla.org/Audio_Data_API#Complete_Example:_Creating_a_Web_Based_Tone_Generator">this Firefox Audio Data API demo</a>.
         Inspiration from <a href="http://forums.dv247.com/tips-n-tricks-general-production/1079-synthesis-101-basics.html">this synthesizer 101 post</a>, and,
         of course, <a href="http://en.wikipedia.org/wiki/Synthesizer">Wikipedia</a>.
+
+        <p>
+        <a href="index.html">&lt;&lt; Back to Audio Experiments index</a>
 
         <div id="id_copyright">
         By <a href="http://www.gilesthomas.com/">Giles Thomas</a>, 2010.  Some rights reserved: <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike license (CC-BY-SA)</a>.

@@ -1,18 +1,88 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
     <head>
-        <title>Audio Data API keyboard synthesiser</title>
+        <title>Keyboard synthesiser: Audio Data API experiment</title>
 
         <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8" />
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+        <script type="text/javascript" src="oscillators.js"></script>
+
+        <script type="text/javascript">
+            var sampleRate = 44100;
+
+            function init() {
+                audio = new Audio();
+                audio.mozSetup(1, sampleRate, 1);
+
+                for (oscillator in oscillators) {
+                    $("#id_oscillator").append('<option value="' + oscillator + '">' + oscillators[oscillator].description + '</option>');
+                }
+            }
+
+
+            $(init);
+        </script>
+
     </head>
 
     <body>
         <h1>A simple synthesiser</h1>
 
+
+        <table>
+            <tr>
+                <td>
+                    Oscillator:
+                </td>
+                <td>
+                    <select id="id_oscillator">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Attack:
+                </td>
+                <td>
+                    <input type="text" size="4" id="id_attack" value="35"> ms
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Decay:
+                </td>
+                <td>
+                    <input type="text" size="4" id="id_decay" value="35"> ms
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Sustain:
+                </td>
+                <td>
+                    <input type="text" size="4" id="id_sustain" value="0.5"> (amplitude, 0-1)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Release:
+                </td>
+                <td>
+                    <input type="text" size="4" id="id_release" value="500"> ms
+                </td>
+            </tr>
+        </table>
+
+
+
         <p>
         Inspiration from <a href="https://wiki.mozilla.org/Audio_Data_API#Complete_Example:_Creating_a_Web_Based_Tone_Generator">this Firefox Audio Data API demo</a>,
         <a href="http://forums.dv247.com/tips-n-tricks-general-production/1079-synthesis-101-basics.html">this synthesizer 101 post</a>, and,
         of course, <a href="http://en.wikipedia.org/wiki/Synthesizer">Wikipedia</a>.
+
+        <p>
+        <a href="index.html">&lt;&lt; Back to Audio Experiments index</a>
 
         <div id="id_copyright">
         By <a href="http://www.gilesthomas.com/">Giles Thomas</a>, 2010.  Some rights reserved: <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike license (CC-BY-SA)</a>.
