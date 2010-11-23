@@ -24,13 +24,11 @@
                     $("#id_oscillator").append('<option value="' + oscillator + '">' + oscillators[oscillator].description + '</option>');
                 }
 
-                alert(semitoneRatio);
                 var note = baseA;
                 for (var i=0; i < numNotes; i++) {
                     notes.push(note);
                     note *= semitoneRatio;
                 }
-                alert(notes);
             }
 
 
@@ -87,8 +85,8 @@
             </tr>
         </table>
 
-        <canvas id="id_keyboard">
-        </canvas>
+        <table id="id_keyboard">
+        </div>
 
 
         <p>
