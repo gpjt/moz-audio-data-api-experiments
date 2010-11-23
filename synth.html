@@ -11,6 +11,11 @@
         <script type="text/javascript">
             var sampleRate = 44100;
 
+            var semitoneRatio = Math.pow(2, 1 / 12);
+            var baseA = 220;
+            var notes = [];
+            var numNotes = 36;
+
             function init() {
                 audio = new Audio();
                 audio.mozSetup(1, sampleRate, 1);
@@ -18,6 +23,14 @@
                 for (oscillator in oscillators) {
                     $("#id_oscillator").append('<option value="' + oscillator + '">' + oscillators[oscillator].description + '</option>');
                 }
+
+                alert(semitoneRatio);
+                var note = baseA;
+                for (var i=0; i < numNotes; i++) {
+                    notes.push(note);
+                    note *= semitoneRatio;
+                }
+                alert(notes);
             }
 
 
@@ -74,6 +87,8 @@
             </tr>
         </table>
 
+        <canvas id="id_keyboard">
+        </canvas>
 
 
         <p>
