@@ -11,10 +11,37 @@
         <script type="text/javascript">
             var sampleRate = 44100;
 
-            var semitoneRatio = Math.pow(2, 1 / 12);
-            var baseA = 220;
-            var notes = [];
-            var numNotes = 36;
+            var keys = [
+                new Key('a', 'A', 440),
+                new Key('w', 'A#/Bb', 466.16376151809),
+                new Key('s', 'B', 493.883301256124),
+                new Key('d', 'C', 523.251130601197),
+                new Key('r', 'C#/Db', 554.365261953744),
+                new Key('f', 'D', 587.329535834815),
+                new Key('t', 'D#/Eb', 622.253967444162),
+                new Key('g', 'E', 659.25511382574),
+                new Key('h', 'F', 698.456462866008),
+                new Key('u', 'F#/Gb', 739.988845423269),
+                new Key('j', 'G', 783.990871963499),
+                new Key('i', 'G#/Ab', 830.609395159891),
+                new Key('k', 'A', 880),
+                new Key('o', 'A#/Bb', 932.32752303618),
+                new Key('l', 'B', 987.766602512249),
+                new Key(';', 'C', 1046.50226120239),
+                new Key('[', 'C#/Db', 1108.73052390749),
+                new Key("'", 'D', 1174.65907166963),
+                new Key(']', 'D#/Eb', 1244.50793488832),
+                new Key('#', 'E', 1318.51022765148)
+            ];
+
+
+            function keydown(event) {
+            }
+
+
+            function keyup(event) {
+            }
+
 
             function init() {
                 audio = new Audio();
@@ -24,11 +51,8 @@
                     $("#id_oscillator").append('<option value="' + oscillator + '">' + oscillators[oscillator].description + '</option>');
                 }
 
-                var note = baseA;
-                for (var i=0; i < numNotes; i++) {
-                    notes.push(note);
-                    note *= semitoneRatio;
-                }
+                $("id_keyboard").keydown(keydown);
+                $("id_keyboard").keyup(keydp);
             }
 
 
@@ -85,8 +109,9 @@
             </tr>
         </table>
 
-        <table id="id_keyboard">
-        </div>
+        <textarea id="id_keyboard">
+            Type in here with the middle keys of the keyboard...
+        </textarea>
 
 
         <p>
