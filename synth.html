@@ -11,28 +11,33 @@
         <script type="text/javascript">
             var sampleRate = 44100;
 
-            var keys = [
-                new Key('a', 'A', 440),
-                new Key('w', 'A#/Bb', 466.16376151809),
-                new Key('s', 'B', 493.883301256124),
-                new Key('d', 'C', 523.251130601197),
-                new Key('r', 'C#/Db', 554.365261953744),
-                new Key('f', 'D', 587.329535834815),
-                new Key('t', 'D#/Eb', 622.253967444162),
-                new Key('g', 'E', 659.25511382574),
-                new Key('h', 'F', 698.456462866008),
-                new Key('u', 'F#/Gb', 739.988845423269),
-                new Key('j', 'G', 783.990871963499),
-                new Key('i', 'G#/Ab', 830.609395159891),
-                new Key('k', 'A', 880),
-                new Key('o', 'A#/Bb', 932.32752303618),
-                new Key('l', 'B', 987.766602512249),
-                new Key(';', 'C', 1046.50226120239),
-                new Key('[', 'C#/Db', 1108.73052390749),
-                new Key("'", 'D', 1174.65907166963),
-                new Key(']', 'D#/Eb', 1244.50793488832),
-                new Key('#', 'E', 1318.51022765148)
-            ];
+            function Key(name, pitch) {
+                this.name = name;
+                this.pitch = pitch;
+            }
+
+            var keys = {
+                65 : new Key('A', 440),
+                87: new Key('A#/Bb', 466.16376151809),
+                83: new Key('B', 493.883301256124),
+                68: new Key('C', 523.251130601197),
+                82: new Key('C#/Db', 554.365261953744),
+                70: new Key('D', 587.329535834815),
+                84: new Key('D#/Eb', 622.253967444162),
+                71: new Key('E', 659.25511382574),
+                72: new Key('F', 698.456462866008),
+                85: new Key('F#/Gb', 739.988845423269),
+                74: new Key('G', 783.990871963499),
+                73: new Key('G#/Ab', 830.609395159891),
+                75: new Key('A', 880),
+                79: new Key('A#/Bb', 932.32752303618),
+                76: new Key('B', 987.766602512249),
+                59: new Key('C', 1046.50226120239),
+                219: new Key('C#/Db', 1108.73052390749),
+                192: new Key('D', 1174.65907166963),
+                221: new Key('D#/Eb', 1244.50793488832),
+                222: new Key('E', 1318.51022765148)
+            };
 
 
             function keydown(event) {
@@ -40,6 +45,7 @@
 
 
             function keyup(event) {
+                alert(keys[event.which].pitch);
             }
 
 
@@ -51,8 +57,8 @@
                     $("#id_oscillator").append('<option value="' + oscillator + '">' + oscillators[oscillator].description + '</option>');
                 }
 
-                $("id_keyboard").keydown(keydown);
-                $("id_keyboard").keyup(keydp);
+                $("#id_keyboard").keydown(keydown);
+                $("#id_keyboard").keyup(keyup);
             }
 
 
