@@ -51,9 +51,12 @@ Note.prototype.getSample = function(tick) {
 }
 
 
+var sampleRate = 44100;
+
 
 // Developer's heuristic -- if you call something an XXManager, you don't really understand what it does...
 function AudioManagerForWantOfABetterName() {
+
     this.audio = new Audio();
     this.audio.mozSetup(1, sampleRate, 1);
 
