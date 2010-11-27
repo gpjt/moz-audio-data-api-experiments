@@ -10,13 +10,13 @@
 
         <script type="text/javascript">
             $(function () {
-                function Key(name, pitch) {
+                function Key(name, frequency) {
                     this.name = name;
-                    this.pitch = pitch;
+                    this.frequency = frequency;
                 }
 
                 var keys = {
-                    65 : new Key('A', 440),
+                    65: new Key('A', 440),
                     87: new Key('A#/Bb', 466.16376151809),
                     83: new Key('B', 493.883301256124),
                     68: new Key('C', 523.251130601197),
