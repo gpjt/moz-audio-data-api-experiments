@@ -43,7 +43,7 @@
             }
 
             function init() {
-                manager = new AudioManagerForWantOfABetterName();
+                manager = new AudioManagerForWantOfABetterName(getAmplitude);
 
                 for (oscillator in manager.oscillators) {
                     $("#id_oscillator").append('<option value="' + oscillator + '">' + manager.oscillators[oscillator].description + '</option>');

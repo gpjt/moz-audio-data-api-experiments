@@ -14,7 +14,7 @@ function Voice(oscillator, attack, decay, sustain, release) {
 
 
 // Developer's heuristic -- if you call something an XXManager, you don't really understand what it does...
-function AudioManagerForWantOfABetterName() {
+function AudioManagerForWantOfABetterName(getAmplitude) {
     this.sampleRate = 44100;
     var portionSize = this.sampleRate / 100;
     var prebufferSize = this.sampleRate / 4;
