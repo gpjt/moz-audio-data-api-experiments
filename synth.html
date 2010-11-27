@@ -39,16 +39,9 @@
                 };
 
 
-                var note = null;
+                var keysDownToNotes = {}
 
-                function getAmplitude(tick) {
-                    if (note != null) {
-                        return note.getSample(tick);
-                    }
-                    return 0;
-                }
-
-                var manager = new AudioManagerForWantOfABetterName(getAmplitude);
+                var manager = new AudioManagerForWantOfABetterName();
 
                 for (oscillator in manager.oscillators) {
                     $("#id_oscillator").append('<option value="' + oscillator + '">' + manager.oscillators[oscillator].description + '</option>');
@@ -56,10 +49,10 @@
 
 
                 function keydown(event) {
-                    if (note != null) {
-                        note.stop();
+                    if (keysDownToNotes[event.which] != null) {
+                        keysDownToNotes[event.which].stop();
                     }
-                    note = manager.startNote(
+                    keysDownToNotes[event.which] = manager.startNote(
                         keys[event.which].frequency,
                         new Voice(
                             manager.oscillators[$("#id_oscillator").val()],
@@ -74,8 +67,8 @@
 
 
                 function keyup(event) {
-                    if (note != null) {
-                        note.stop();
+                    if (keysDownToNotes[event.which] != null) {
+                        keysDownToNotes[event.which].stop();
                     }
                 }
                 $("#id_keyboard").keyup(keyup);
