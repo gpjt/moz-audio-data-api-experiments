@@ -49,6 +49,10 @@
 
 
                 function keydown(event) {
+                    if (keys[event.which] === undefined) {
+                        return;
+                    }
+
                     if (keysDownToNotes[event.which] != null) {
                         keysDownToNotes[event.which].stop();
                     }
