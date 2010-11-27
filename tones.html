@@ -36,12 +36,6 @@
                 );
             }
 
-            function stop() {
-                if (note != null) {
-                    note.stop();
-                }
-            }
-
             function init() {
                 manager = new AudioManagerForWantOfABetterName(getAmplitude);
 
@@ -50,6 +44,13 @@
                 }
 
                 $("#id_play").mousedown(start);
+
+
+                function stop() {
+                    if (note != null) {
+                        note.stop();
+                    }
+                }
                 $("#id_play").mouseup(stop);
             }
 
