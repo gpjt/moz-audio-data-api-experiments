@@ -119,42 +119,52 @@ Some rights reserved: http://creativecommons.org/licenses/by-sa/3.0/
                 }
                 $(document).keyup(keyup);
 
+                function bindVisualKeyEvents($keyElement, keyCode) {
+                    $keyElement.mousedown(function() { keydown({ which: keyCode }) });
+                    $keyElement.mouseup(function() { keyup({ which: keyCode }) });
+                    $keyElement.mouseleave(function() { keyup({ which: keyCode }) });
+                }
+
                 var $keyboardTop = $("#id_keyboardTop");
-                for (var key in keys) {
-                    var $key = $("<td>");
-                    $key.css('height', 100);
-                    $key.css('width', keys[key].topWidth);
-                    if (keys[key].isBlack) {
-                        $key.css('background-color', '#000000');
-                        $key.css('color', '#FFFFFF');
-                        $key.append(document.createTextNode(keys[key].letter));
+                for (var keyCode in keys) {
+                    var key = keys[keyCode];
+                    var $keyElement = $("<td>");
+                    bindVisualKeyEvents($keyElement, keyCode);
+                    $keyElement.css('height', 90);
+                    $keyElement.css('width', key.topWidth);
+                    if (key.isBlack) {
+                        $keyElement.css('background-color', '#000000');
+                        $keyElement.css('color', '#FFFFFF');
+                        $keyElement.append(document.createTextNode(key.letter));
                     } else {
-                        $key.css('background-color', '#FFFFFF');
+                        $keyElement.css('background-color', '#FFFFFF');
                     }
-                    $key.css('border-top', '1px solid black');
-                    $key.css('border-left', '1px solid black');
-                    $key.css('border-right', '1px solid black');
-                    $keyboardTop.append($key)
+                    $keyElement.css('border-top', '1px solid black');
+                    $keyElement.css('border-left', '1px solid black');
+                    $keyElement.css('border-right', '1px solid black');
+                    $keyboardTop.append($keyElement)
                 }
 
                 var $keyboardBottom = $("#id_keyboardBottom");
-                for (var key in keys) {
-                    var $key = $("<td>");
-                    $key.css('height', 100);
-                    $key.css('width', keys[key].bottomWidth);
-                    if (keys[key].isBlack) {
-                        $key.css('background-color', '#000000');
+                for (var keyCode in keys) {
+                    var key = keys[keyCode];
+                    var $keyElement = $("<td>");
+                    bindVisualKeyEvents($keyElement, keyCode);
+                    $keyElement.css('height', 100);
+                    $keyElement.css('width', key.bottomWidth);
+                    if (key.isBlack) {
+                        $keyElement.css('background-color', '#000000');
                     } else {
-                        $key.css('background-color', '#FFFFFF');
-                        $key.css('color', '#000000');
-                        $key.append(document.createTextNode(keys[key].letter));
+                        $keyElement.css('background-color', '#FFFFFF');
+                        $keyElement.css('color', '#000000');
+                        $keyElement.append(document.createTextNode(key.letter));
                     }
-                    if (keys[key].bottomWidth) {
-                        $key.css('border-left', '1px solid black');
-                        $key.css('border-right', '1px solid black');
-                        $key.css('border-bottom', '1px solid black');
+                    if (key.bottomWidth) {
+                        $keyElement.css('border-left', '1px solid black');
+                        $keyElement.css('border-right', '1px solid black');
+                        $keyElement.css('border-bottom', '1px solid black');
                     }
-                    $keyboardBottom.append($key)
+                    $keyboardBottom.append($keyElement)
                 }
             });
         </script>
