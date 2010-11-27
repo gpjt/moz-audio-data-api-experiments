@@ -13,6 +13,7 @@ function Voice(oscillator, attack, decay, sustain, release) {
 }
 
 
+var currentWritePosition = 0;
 
 // Developer's heuristic -- if you call something an XXManager, you don't really understand what it does...
 function AudioManagerForWantOfABetterName() {
