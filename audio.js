@@ -92,6 +92,9 @@ function AudioManagerForWantOfABetterName() {
         var theta = (this.radiansPerSample * tick) % (2 * Math.PI);
         return this.voice.oscillator.generator(theta) * this.getAmplitude(tick);
     }
+    this.Note.prototype.stop = function() {
+        note.requestedStopTime = manager.currentWritePosition;
+    }
 
 
     function getSoundData(offset, size) {
