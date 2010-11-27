@@ -63,8 +63,10 @@ Some rights reserved: http://creativecommons.org/licenses/by-sa/3.0/
                     }
 
                     if (keysDownToNotes[event.which] != null) {
-                        keysDownToNotes[event.which].stop();
+                        // Probably auto-repeat
+                        return;
                     }
+
                     keysDownToNotes[event.which] = manager.startNote(
                         keys[event.which].frequency,
                         parseFloat($("#id_volume").val()),
@@ -83,6 +85,7 @@ Some rights reserved: http://creativecommons.org/licenses/by-sa/3.0/
                 function keyup(event) {
                     if (keysDownToNotes[event.which] != null) {
                         keysDownToNotes[event.which].stop();
+                        keysDownToNotes[event.which] = null;
                     }
                 }
                 $("#id_keyboard").keyup(keyup);
