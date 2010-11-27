@@ -23,19 +23,6 @@
             }
 
 
-            function start() {
-                note = manager.startNote(
-                    parseFloat($("#id_freq").val()),
-                    new Voice(
-                        manager.oscillators[$("#id_oscillator").val()],
-                        (parseFloat($("#id_attack").val()) * manager.sampleRate) / 1000,
-                        (parseFloat($("#id_decay").val()) * manager.sampleRate) / 1000,
-                        parseFloat($("#id_sustain").val()),
-                        (parseFloat($("#id_release").val()) * manager.sampleRate) / 1000
-                    )
-                );
-            }
-
             function init() {
                 manager = new AudioManagerForWantOfABetterName(getAmplitude);
 
@@ -43,6 +30,19 @@
                     $("#id_oscillator").append('<option value="' + oscillator + '">' + manager.oscillators[oscillator].description + '</option>');
                 }
 
+
+                function start() {
+                    note = manager.startNote(
+                        parseFloat($("#id_freq").val()),
+                        new Voice(
+                            manager.oscillators[$("#id_oscillator").val()],
+                            (parseFloat($("#id_attack").val()) * manager.sampleRate) / 1000,
+                            (parseFloat($("#id_decay").val()) * manager.sampleRate) / 1000,
+                            parseFloat($("#id_sustain").val()),
+                            (parseFloat($("#id_release").val()) * manager.sampleRate) / 1000
+                        )
+                    );
+                }
                 $("#id_play").mousedown(start);
 
 
