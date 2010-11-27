@@ -16,7 +16,10 @@
 
 
             function getAmplitude(tick) {
-                return note.getSample(tick);
+                if (note != null) {
+                    return note.getSample(tick);
+                }
+                return 0;
             }
 
 
