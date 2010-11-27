@@ -9,8 +9,7 @@
         <script type="text/javascript" src="audio.js"></script>
 
         <script type="text/javascript">
-
-            function init() {
+            $(function() {
                 var note = null;
 
                 function getAmplitude(tick) {
@@ -47,9 +46,7 @@
                     }
                 }
                 $("#id_play").mouseup(stop);
-            }
-
-            $(init);
+            });
         </script>
     </head>
 
