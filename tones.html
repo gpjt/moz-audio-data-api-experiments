@@ -28,14 +28,6 @@
                 return soundData;
             }
 
-            function writeData() {
-                while (manager.audio.mozCurrentSampleOffset() + prebufferSize >= currentWritePosition) {
-                    var soundData = getSoundData(currentWritePosition, portionSize);
-                    manager.audio.mozWriteAudio(soundData);
-                    currentWritePosition += portionSize;
-                }
-            }
-
             var note = null;
 
 

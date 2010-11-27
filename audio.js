@@ -85,6 +85,18 @@ function AudioManagerForWantOfABetterName() {
         )
     };
 
+
+    var manager = this;
+
+    function writeData() {
+        while (manager.audio.mozCurrentSampleOffset() + prebufferSize >= currentWritePosition) {
+            var soundData = getSoundData(currentWritePosition, portionSize);
+            manager.audio.mozWriteAudio(soundData);
+            currentWritePosition += portionSize;
+        }
+    }
+
+
     var writeInterval = Math.floor(1000 * portionSize / sampleRate);
     setInterval(writeData, writeInterval);
 }
