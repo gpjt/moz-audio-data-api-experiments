@@ -13,7 +13,7 @@ function Voice(oscillator, attack, decay, sustain, release) {
 }
 
 
-var currentWritePosition = 0;
+var currentWritePosition;
 
 // Developer's heuristic -- if you call something an XXManager, you don't really understand what it does...
 function AudioManagerForWantOfABetterName() {
@@ -23,6 +23,8 @@ function AudioManagerForWantOfABetterName() {
 
     this.audio = new Audio();
     this.audio.mozSetup(1, this.sampleRate, 1);
+
+    currentWritePosition = 0;
 
     this.oscillators = {
         "sine" : new Oscillator(
