@@ -26,6 +26,9 @@
 
 
                 function start() {
+                    if (note != null) {
+                        note.stop();
+                    }
                     note = manager.startNote(
                         parseFloat($("#id_freq").val()),
                         new Voice(
