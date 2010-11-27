@@ -12,7 +12,7 @@
             $(function() {
                 var note = null;
 
-                var manager = new AudioManagerForWantOfABetterName();
+                var manager = new Synth();
 
                 for (oscillator in manager.oscillators) {
                     $("#id_oscillator").append('<option value="' + oscillator + '">' + manager.oscillators[oscillator].description + '</option>');
