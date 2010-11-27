@@ -10,12 +10,13 @@
 
         <script type="text/javascript">
 
+            var manager;
+
             var sampleRate = 44100;
             var portionSize = sampleRate / 100;
             var prebufferSize = sampleRate / 4;
             var writeInterval = Math.floor(1000 * portionSize / sampleRate);
 
-            var audio;
             var currentWritePosition = 0;
 
             function getSoundData(offset, size) {
@@ -29,9 +30,9 @@
             }
 
             function writeData() {
-                while (audio.mozCurrentSampleOffset() + prebufferSize >= currentWritePosition) {
+                while (manager.audio.mozCurrentSampleOffset() + prebufferSize >= currentWritePosition) {
                     var soundData = getSoundData(currentWritePosition, portionSize);
-                    audio.mozWriteAudio(soundData);
+                    manager.audio.mozWriteAudio(soundData);
                     currentWritePosition += portionSize;
                 }
             }
@@ -65,8 +66,7 @@
             }
 
             function init() {
-                audio = new Audio();
-                audio.mozSetup(1, sampleRate, 1);
+                manager = new AudioManagerForWantOfABetterName();
 
                 for (oscillator in oscillators) {
                     $("#id_oscillator").append('<option value="' + oscillator + '">' + oscillators[oscillator].description + '</option>');
