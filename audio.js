@@ -93,6 +93,17 @@ function AudioManagerForWantOfABetterName() {
     }
 
 
+    function getSoundData(offset, size) {
+        var soundData = new Float32Array(size);
+        if (note != null) {
+            for (var i=0; i < size; i++) {
+                soundData[i] = getAmplitude(i + offset);
+            }
+        }
+        return soundData;
+    }
+
+
     function writeData() {
         while (manager.audio.mozCurrentSampleOffset() + prebufferSize >= currentWritePosition) {
             var soundData = getSoundData(currentWritePosition, portionSize);
