@@ -15,7 +15,6 @@
             var sampleRate = 44100;
             var portionSize = sampleRate / 100;
             var prebufferSize = sampleRate / 4;
-            var writeInterval = Math.floor(1000 * portionSize / sampleRate);
 
             var currentWritePosition = 0;
 
@@ -74,7 +73,6 @@
 
                 $("#id_play").mousedown(start);
                 $("#id_play").mouseup(stop);
-
             }
 
             $(init);

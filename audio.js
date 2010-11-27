@@ -85,6 +85,6 @@ function AudioManagerForWantOfABetterName() {
         )
     };
 
-
+    var writeInterval = Math.floor(1000 * portionSize / sampleRate);
     setInterval(writeData, writeInterval);
 }
