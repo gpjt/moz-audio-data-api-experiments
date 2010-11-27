@@ -85,4 +85,6 @@ function AudioManagerForWantOfABetterName() {
         )
     };
 
+
+    setInterval(writeData, writeInterval);
 }
