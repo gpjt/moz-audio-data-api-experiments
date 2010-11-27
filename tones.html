@@ -15,15 +15,13 @@
             var note = null;
 
 
-            function getAmplitude(tick) {
-                if (note != null) {
-                    return note.getSample(tick);
-                }
-                return 0;
-            }
-
-
             function init() {
+                function getAmplitude(tick) {
+                    if (note != null) {
+                        return note.getSample(tick);
+                    }
+                    return 0;
+                }
                 manager = new AudioManagerForWantOfABetterName(getAmplitude);
 
                 for (oscillator in manager.oscillators) {
