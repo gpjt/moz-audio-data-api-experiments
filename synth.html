@@ -51,7 +51,7 @@
 
 
                 function keydown(event) {
-                    alert("keydown" + event.which);
+                    alert("keydown, " + event.which + ", " + keys[event.which].frequency);
                 }
                 $("#id_keyboard").keydown(keydown);
 
