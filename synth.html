@@ -6,10 +6,11 @@
         <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8" />
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-        <script type="text/javascript" src="oscillators.js"></script>
+        <script type="text/javascript" src="audio.js"></script>
 
         <script type="text/javascript">
             var sampleRate = 44100;
+            var currentNote = null;
 
             function Key(name, pitch) {
                 this.name = name;
@@ -41,11 +42,25 @@
 
 
             function keydown(event) {
+                currentNote = new Note(
+                    currentWritePosition,
+                    parseFloat($("#id_freq").val()),
+                    new Voice(
+                        oscillators[$("#id_oscillator").val()],
+                        (parseFloat($("#id_attack").val()) * sampleRate) / 1000,
+                        (parseFloat($("#id_decay").val()) * sampleRate) / 1000,
+                        parseFloat($("#id_sustain").val()),
+                        (parseFloat($("#id_release").val()) * sampleRate) / 1000
+                    )
+                );
             }
 
 
             function keyup(event) {
-                alert(keys[event.which].pitch);
+                if (currentNote != null) {
+                    currentNote.requestedStopTime = currentWritePosition;
+                    currentNote = null;
+                }
             }
 
 
