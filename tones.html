@@ -12,13 +12,7 @@
             $(function() {
                 var note = null;
 
-                function getAmplitude(tick) {
-                    if (note != null) {
-                        return note.getSample(tick);
-                    }
-                    return 0;
-                }
-                var manager = new AudioManagerForWantOfABetterName(getAmplitude);
+                var manager = new AudioManagerForWantOfABetterName();
 
                 for (oscillator in manager.oscillators) {
                     $("#id_oscillator").append('<option value="' + oscillator + '">' + manager.oscillators[oscillator].description + '</option>');

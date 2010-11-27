@@ -14,7 +14,7 @@ function Voice(oscillator, attack, decay, sustain, release) {
 
 
 // Developer's heuristic -- if you call something an XXManager, you don't really understand what it does...
-function AudioManagerForWantOfABetterName(getAmplitude) {
+function AudioManagerForWantOfABetterName() {
     this.sampleRate = 44100;
     var portionSize = this.sampleRate / 100;
     var prebufferSize = this.sampleRate / 4;
@@ -118,6 +118,14 @@ function AudioManagerForWantOfABetterName(getAmplitude) {
         return note;
     }
 
+
+    function getAmplitude(tick) {
+        var result = 0;
+        for (var note in playingNotes) {
+            result += playingNotes[note].getSample(tick);
+        }
+        return result;
+    }
 
     function getSoundData(offset, size) {
         var soundData = new Float32Array(size);
