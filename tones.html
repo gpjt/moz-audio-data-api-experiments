@@ -22,7 +22,7 @@
 
             function start() {
                 note = new manager.Note(
-                    currentWritePosition,
+                    manager.currentWritePosition,
                     parseFloat($("#id_freq").val()),
                     new Voice(
                         manager.oscillators[$("#id_oscillator").val()],
@@ -36,7 +36,7 @@
 
             function stop() {
                 if (note != null) {
-                    note.requestedStopTime = currentWritePosition;
+                    note.requestedStopTime = manager.currentWritePosition;
                 }
             }
 
