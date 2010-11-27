@@ -9,9 +9,6 @@
         <script type="text/javascript" src="audio.js"></script>
 
         <script type="text/javascript">
-            var sampleRate = 44100;
-            var currentNote = null;
-
             function Key(name, pitch) {
                 this.name = name;
                 this.pitch = pitch;
@@ -41,43 +38,28 @@
             };
 
 
-            function keydown(event) {
-                currentNote = new Note(
-                    currentWritePosition,
-                    parseFloat($("#id_freq").val()),
-                    new Voice(
-                        oscillators[$("#id_oscillator").val()],
-                        (parseFloat($("#id_attack").val()) * sampleRate) / 1000,
-                        (parseFloat($("#id_decay").val()) * sampleRate) / 1000,
-                        parseFloat($("#id_sustain").val()),
-                        (parseFloat($("#id_release").val()) * sampleRate) / 1000
-                    )
-                );
-            }
-
-
-            function keyup(event) {
-                if (currentNote != null) {
-                    currentNote.requestedStopTime = currentWritePosition;
-                    currentNote = null;
-                }
-            }
-
-
-            function init() {
-                audio = new Audio();
-                audio.mozSetup(1, sampleRate, 1);
-
-                for (oscillator in oscillators) {
-                    $("#id_oscillator").append('<option value="' + oscillator + '">' + oscillators[oscillator].description + '</option>');
+            $(function () {
+                function getAmplitude(tick) {
+                    return 0;
                 }
 
+                var manager = new AudioManagerForWantOfABetterName(getAmplitude);
+
+                for (oscillator in manager.oscillators) {
+                    $("#id_oscillator").append('<option value="' + oscillator + '">' + manager.oscillators[oscillator].description + '</option>');
+                }
+
+
+                function keydown(event) {
+                    alert("keydown" + event.which);
+                }
                 $("#id_keyboard").keydown(keydown);
+
+
+                function keyup(event) {
+                }
                 $("#id_keyboard").keyup(keyup);
-            }
-
-
-            $(init);
+            });
         </script>
 
     </head>
