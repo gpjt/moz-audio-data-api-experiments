@@ -95,6 +95,13 @@ function AudioManagerForWantOfABetterName() {
     this.Note.prototype.stop = function() {
         note.requestedStopTime = manager.currentWritePosition;
     }
+    
+    this.startNote = function(frequency, voice) {
+        return new manager.Note(
+            manager.currentWritePosition,
+            frequency, voice
+        );    
+    }
 
 
     function getSoundData(offset, size) {
