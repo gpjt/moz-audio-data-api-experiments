@@ -18,14 +18,6 @@
             var audio;
             var currentWritePosition = 0;
 
-            var note = null;
-
-
-            function getAmplitude(tick) {
-                return note.getSample(tick);
-            }
-
-
             function getSoundData(offset, size) {
                 var soundData = new Float32Array(size);
                 if (note != null) {
@@ -43,6 +35,14 @@
                     currentWritePosition += portionSize;
                 }
             }
+
+            var note = null;
+
+
+            function getAmplitude(tick) {
+                return note.getSample(tick);
+            }
+
 
             function start() {
                 note = new Note(
