@@ -55,6 +55,7 @@ function AudioManagerForWantOfABetterName(getAmplitude) {
 
     var manager = this;
 
+    var playingNotes = [];
 
     this.Note = function(startTime, frequency, voice) {
         this.startTime = startTime;
@@ -86,6 +87,16 @@ function AudioManagerForWantOfABetterName(getAmplitude) {
         if (offset < this.actualStopTime + this.voice.release) {
             return this.voice.sustain - ((this.voice.sustain * (offset - this.actualStopTime)) / this.voice.release);
         }
+        // We're done.  There is doubtless a better way to remove a value from a JS list/array/object by its value
+        // than the following abomination; as they say, patches accepted.  At least we don't need to worry about
+        // multiple threads...
+        var newPlayingNotes = []
+        for (var i in playingNotes) {
+            if (playingNotes[i] != this) {
+                newPlayingNotes.push(playingNotes[i])
+            }
+        }
+        playingNotes = newPlayingNotes
         return 0;
     }
     this.Note.prototype.getSample = function(tick) {
@@ -95,12 +106,16 @@ function AudioManagerForWantOfABetterName(getAmplitude) {
     this.Note.prototype.stop = function() {
         this.requestedStopTime = manager.currentWritePosition;
     }
-    
+
+
+
     this.startNote = function(frequency, voice) {
-        return new manager.Note(
+        var note = new manager.Note(
             manager.currentWritePosition,
             frequency, voice
-        );    
+        );
+        playingNotes.push(note);
+        return note;
     }
 
 
