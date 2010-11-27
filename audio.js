@@ -4,37 +4,6 @@ function Oscillator(description, generator) {
 }
 
 
-var oscillators = {
-    "sine" : new Oscillator(
-        "Sine", Math.sin
-    ),
-    "square" : new Oscillator(
-        "Square",
-        function(theta) {
-            if (0 <= theta && theta <= Math.PI) {
-                return 1;
-            } else if (Math.PI <= theta && theta <= 2 * Math.PI) {
-                return -1;
-            }
-        }
-    ),
-    "triangle" : new Oscillator(
-        "Triangle",
-        function(theta) { return 1 - 2 * Math.abs((theta / Math.PI) - 1) }
-    ),
-    "sawtooth" : new Oscillator(
-        "Sawtooth",
-        function(theta) { return theta / (Math.PI * 2) }
-    ),
-    "noise" : new Oscillator(
-        "Noise",
-        function() { return Math.random() * 2 - 1 }
-    )
-};
-
-
-
-
 function Voice(oscillator, attack, decay, sustain, release) {
     this.oscillator = oscillator;
     this.attack = attack;
@@ -87,4 +56,33 @@ Note.prototype.getSample = function(tick) {
 function AudioManagerForWantOfABetterName() {
     this.audio = new Audio();
     this.audio.mozSetup(1, sampleRate, 1);
+
+    this.oscillators = {
+        "sine" : new Oscillator(
+            "Sine", Math.sin
+        ),
+        "square" : new Oscillator(
+            "Square",
+            function(theta) {
+                if (0 <= theta && theta <= Math.PI) {
+                    return 1;
+                } else if (Math.PI <= theta && theta <= 2 * Math.PI) {
+                    return -1;
+                }
+            }
+        ),
+        "triangle" : new Oscillator(
+            "Triangle",
+            function(theta) { return 1 - 2 * Math.abs((theta / Math.PI) - 1) }
+        ),
+        "sawtooth" : new Oscillator(
+            "Sawtooth",
+            function(theta) { return theta / (Math.PI * 2) }
+        ),
+        "noise" : new Oscillator(
+            "Noise",
+            function() { return Math.random() * 2 - 1 }
+        )
+    };
+
 }

@@ -50,7 +50,7 @@
                     currentWritePosition,
                     parseFloat($("#id_freq").val()),
                     new Voice(
-                        oscillators[$("#id_oscillator").val()],
+                        manager.oscillators[$("#id_oscillator").val()],
                         (parseFloat($("#id_attack").val()) * sampleRate) / 1000,
                         (parseFloat($("#id_decay").val()) * sampleRate) / 1000,
                         parseFloat($("#id_sustain").val()),
@@ -68,8 +68,8 @@
             function init() {
                 manager = new AudioManagerForWantOfABetterName();
 
-                for (oscillator in oscillators) {
-                    $("#id_oscillator").append('<option value="' + oscillator + '">' + oscillators[oscillator].description + '</option>');
+                for (oscillator in manager.oscillators) {
+                    $("#id_oscillator").append('<option value="' + oscillator + '">' + manager.oscillators[oscillator].description + '</option>');
                 }
 
                 $("#id_play").mousedown(start);
