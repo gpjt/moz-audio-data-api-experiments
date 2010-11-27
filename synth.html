@@ -39,7 +39,12 @@
                 };
 
 
+                var note = null;
+
                 function getAmplitude(tick) {
+                    if (note != null) {
+                        return note.getSample(tick);
+                    }
                     return 0;
                 }
 
@@ -51,12 +56,27 @@
 
 
                 function keydown(event) {
-                    alert("keydown, " + event.which + ", " + keys[event.which].frequency);
+                    if (note != null) {
+                        note.stop();
+                    }
+                    note = manager.startNote(
+                        keys[event.which].frequency,
+                        new Voice(
+                            manager.oscillators[$("#id_oscillator").val()],
+                            (parseFloat($("#id_attack").val()) * manager.sampleRate) / 1000,
+                            (parseFloat($("#id_decay").val()) * manager.sampleRate) / 1000,
+                            parseFloat($("#id_sustain").val()),
+                            (parseFloat($("#id_release").val()) * manager.sampleRate) / 1000
+                        )
+                    );
                 }
                 $("#id_keyboard").keydown(keydown);
 
 
                 function keyup(event) {
+                    if (note != null) {
+                        note.stop();
+                    }
                 }
                 $("#id_keyboard").keyup(keyup);
             });
