@@ -14,16 +14,38 @@ Some rights reserved: http://creativecommons.org/licenses/by-sa/3.0/
 
         <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8" />
 
+        <style>
+            table.keyboard {
+                padding: 0;
+                margin: 0;
+                border: 0;
+                cellspacing: 0;
+                border-spacing: 0;
+            }
+            table.keyboard tr {
+                padding: 0;
+                margin: 0;
+                border: 0;
+            }
+            table.keyboard tr td {
+                padding: 0;
+                margin: 0;
+                border: 0;
+                text-align: center;
+            }
+        </style>
+
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
         <script type="text/javascript" src="synth.js"></script>
 
         <script type="text/javascript">
             $(function () {
-                var whiteKeyWidth = 21;
-                var blackKeyWidth = 14;
+                var whiteKeyWidth = 36;
+                var blackKeyWidth = 24;
 
 
-                function Key(name, frequency, isBlack, topWidth, bottomWidth) {
+                function Key(letter, name, frequency, isBlack, topWidth, bottomWidth) {
+                    this.letter = letter;
                     this.name = name;
                     this.frequency = frequency;
                     this.isBlack = isBlack;
@@ -32,26 +54,26 @@ Some rights reserved: http://creativecommons.org/licenses/by-sa/3.0/
                 }
 
                 var keys = {
-                    65: new Key('C', 523.251130601197, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth),
-                    87: new Key('C#/Db', 554.365261953744, true, blackKeyWidth, 0),
-                    83: new Key('D', 587.329535834815, false, whiteKeyWidth - blackKeyWidth, whiteKeyWidth),
-                    69: new Key('D#/Eb', 622.253967444162, true, blackKeyWidth, 0),
-                    68: new Key('E', 659.25511382574, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth),
-                    70: new Key('F', 698.456462866008, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth),
-                    84: new Key('F#/Gb', 739.988845423269, true, blackKeyWidth, 0),
-                    71: new Key('G', 783.990871963499, false, whiteKeyWidth - blackKeyWidth, whiteKeyWidth),
-                    89: new Key('G#/Ab', 830.609395159891, true, blackKeyWidth, 0),
-                    72: new Key('A', 880, false, whiteKeyWidth - blackKeyWidth, whiteKeyWidth),
-                    85: new Key('A#/Bb', 932.32752303618, true, blackKeyWidth, 0),
-                    74: new Key('B', 987.766602512249, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth),
-                    75: new Key('C', 1046.50226120239, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth),
-                    79: new Key('C#/Db', 1108.73052390749, true, blackKeyWidth, 0),
-                    76: new Key('D', 1174.65907166963, false, whiteKeyWidth - blackKeyWidth, whiteKeyWidth),
-                    80: new Key('D#/Eb', 1244.50793488832, true, blackKeyWidth, 0),
-                    59: new Key('E', 1318.51022765148, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth),
-                    192: new Key('F', 1396.91292573202, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth),
-                    221: new Key('F#/Gb', 1479.97769084654, true, blackKeyWidth, 0),
-                    222: new Key('G', 1567.981743927, false, whiteKeyWidth - blackKeyWidth, whiteKeyWidth)
+                    65: new Key('a', 'C', 523.251130601197, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth + 1),
+                    87: new Key('w', 'C#/Db', 554.365261953744, true, blackKeyWidth, 0),
+                    83: new Key('s', 'D', 587.329535834815, false, whiteKeyWidth - blackKeyWidth, whiteKeyWidth + 2),
+                    69: new Key('e', 'D#/Eb', 622.253967444162, true, blackKeyWidth, 0),
+                    68: new Key('d', 'E', 659.25511382574, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth + 1),
+                    70: new Key('f', 'F', 698.456462866008, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth + 1),
+                    84: new Key('t', 'F#/Gb', 739.988845423269, true, blackKeyWidth, 0),
+                    71: new Key('g', 'G', 783.990871963499, false, whiteKeyWidth - blackKeyWidth, whiteKeyWidth + 2),
+                    89: new Key('y', 'G#/Ab', 830.609395159891, true, blackKeyWidth, 0),
+                    72: new Key('h', 'A', 880, false, whiteKeyWidth - blackKeyWidth, whiteKeyWidth + 2),
+                    85: new Key('u', 'A#/Bb', 932.32752303618, true, blackKeyWidth, 0),
+                    74: new Key('j', 'B', 987.766602512249, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth + 1),
+                    75: new Key('k', 'C', 1046.50226120239, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth + 1),
+                    79: new Key('o', 'C#/Db', 1108.73052390749, true, blackKeyWidth, 0),
+                    76: new Key('l', 'D', 1174.65907166963, false, whiteKeyWidth - blackKeyWidth, whiteKeyWidth + 2),
+                    80: new Key('p', 'D#/Eb', 1244.50793488832, true, blackKeyWidth, 0),
+                    59: new Key(';', 'E', 1318.51022765148, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth + 1),
+                    192: new Key("'", 'F', 1396.91292573202, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth + 1),
+                    221: new Key(']', 'F#/Gb', 1479.97769084654, true, blackKeyWidth, 0),
+                    222: new Key('#', 'G', 1567.981743927, false, whiteKeyWidth - blackKeyWidth / 2, whiteKeyWidth + 1)
                 };
 
 
@@ -86,7 +108,7 @@ Some rights reserved: http://creativecommons.org/licenses/by-sa/3.0/
                         )
                     );
                 }
-                $("#id_keyboard").keydown(keydown);
+                $(document).keydown(keydown);
 
 
                 function keyup(event) {
@@ -95,7 +117,45 @@ Some rights reserved: http://creativecommons.org/licenses/by-sa/3.0/
                         keysDownToNotes[event.which] = null;
                     }
                 }
-                $("#id_keyboard").keyup(keyup);
+                $(document).keyup(keyup);
+
+                var $keyboardTop = $("#id_keyboardTop");
+                for (var key in keys) {
+                    var $key = $("<td>");
+                    $key.css('height', 100);
+                    $key.css('width', keys[key].topWidth);
+                    if (keys[key].isBlack) {
+                        $key.css('background-color', '#000000');
+                        $key.css('color', '#FFFFFF');
+                        $key.append(document.createTextNode(keys[key].letter));
+                    } else {
+                        $key.css('background-color', '#FFFFFF');
+                    }
+                    $key.css('border-top', '1px solid black');
+                    $key.css('border-left', '1px solid black');
+                    $key.css('border-right', '1px solid black');
+                    $keyboardTop.append($key)
+                }
+
+                var $keyboardBottom = $("#id_keyboardBottom");
+                for (var key in keys) {
+                    var $key = $("<td>");
+                    $key.css('height', 100);
+                    $key.css('width', keys[key].bottomWidth);
+                    if (keys[key].isBlack) {
+                        $key.css('background-color', '#000000');
+                    } else {
+                        $key.css('background-color', '#FFFFFF');
+                        $key.css('color', '#000000');
+                        $key.append(document.createTextNode(keys[key].letter));
+                    }
+                    if (keys[key].bottomWidth) {
+                        $key.css('border-left', '1px solid black');
+                        $key.css('border-right', '1px solid black');
+                        $key.css('border-bottom', '1px solid black');
+                    }
+                    $keyboardBottom.append($key)
+                }
             });
         </script>
 
@@ -157,9 +217,15 @@ Some rights reserved: http://creativecommons.org/licenses/by-sa/3.0/
             </tr>
         </table>
 
-        <textarea id="id_keyboard">
-            Type in here with the middle keys of the keyboard...
-        </textarea>
+        <!-- table-based layout FTW -->
+        <table id="id_keyboardTopContainer" class="keyboard" border="0">
+            <td id="id_keyboardTop">
+            </tr>
+        </table>
+        <table id="id_keyboardBottomContainer" class="keyboard" border="0">
+            <tr id="id_keyboardBottom">
+            </tr>
+        </table>
 
 
         <p>
