@@ -108,7 +108,7 @@ function AudioManagerForWantOfABetterName() {
 
 
 
-    this.startNote = function(frequency, voice) {
+    this.startNote = function(frequency, volume, voice) {
         var note = new manager.Note(
             manager.currentWritePosition,
             frequency, voice

@@ -58,6 +58,7 @@
                     }
                     keysDownToNotes[event.which] = manager.startNote(
                         keys[event.which].frequency,
+                        parseFloat($("#id_volume").val()),
                         new Voice(
                             manager.oscillators[$("#id_oscillator").val()],
                             (parseFloat($("#id_attack").val()) * manager.sampleRate) / 1000,

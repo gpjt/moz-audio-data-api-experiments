@@ -25,6 +25,7 @@
                     }
                     note = manager.startNote(
                         parseFloat($("#id_freq").val()),
+                        parseFloat($("#id_volume").val()),
                         new Voice(
                             manager.oscillators[$("#id_oscillator").val()],
                             (parseFloat($("#id_attack").val()) * manager.sampleRate) / 1000,
@@ -57,6 +58,14 @@
 
 
         <table>
+            <tr>
+                <td>
+                    Volume:
+                </td>
+                <td>
+                    <input type="text" size="4" id="id_volume" value="0.5"> (ideally 0-1)
+                </td>
+            </tr>
             <tr>
                 <td>
                     Oscillator:
