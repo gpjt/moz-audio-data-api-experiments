@@ -21,8 +21,7 @@
 
 
             function start() {
-                note = new manager.Note(
-                    manager.currentWritePosition,
+                note = manager.startNote(
                     parseFloat($("#id_freq").val()),
                     new Voice(
                         manager.oscillators[$("#id_oscillator").val()],
