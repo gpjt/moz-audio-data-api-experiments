@@ -50,10 +50,10 @@ Some rights reserved: http://creativecommons.org/licenses/by-sa/3.0/
 
                 var keysDownToNotes = {}
 
-                var manager = new Synth();
+                var synth = new Synth();
 
-                for (oscillator in manager.oscillators) {
-                    $("#id_oscillator").append('<option value="' + oscillator + '">' + manager.oscillators[oscillator].description + '</option>');
+                for (oscillator in synth.oscillators) {
+                    $("#id_oscillator").append('<option value="' + oscillator + '">' + synth.oscillators[oscillator].description + '</option>');
                 }
 
 
@@ -67,15 +67,15 @@ Some rights reserved: http://creativecommons.org/licenses/by-sa/3.0/
                         return;
                     }
 
-                    keysDownToNotes[event.which] = manager.startNote(
+                    keysDownToNotes[event.which] = synth.startNote(
                         keys[event.which].frequency,
                         parseFloat($("#id_volume").val()),
                         new Voice(
-                            manager.oscillators[$("#id_oscillator").val()],
-                            (parseFloat($("#id_attack").val()) * manager.sampleRate) / 1000,
-                            (parseFloat($("#id_decay").val()) * manager.sampleRate) / 1000,
+                            synth.oscillators[$("#id_oscillator").val()],
+                            (parseFloat($("#id_attack").val()) * synth.sampleRate) / 1000,
+                            (parseFloat($("#id_decay").val()) * synth.sampleRate) / 1000,
                             parseFloat($("#id_sustain").val()),
-                            (parseFloat($("#id_release").val()) * manager.sampleRate) / 1000
+                            (parseFloat($("#id_release").val()) * synth.sampleRate) / 1000
                         )
                     );
                 }
