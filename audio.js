@@ -57,9 +57,10 @@ function AudioManagerForWantOfABetterName() {
 
     var playingNotes = [];
 
-    this.Note = function(startTime, frequency, voice) {
+    this.Note = function(startTime, frequency, volume, voice) {
         this.startTime = startTime;
         this.frequency = frequency;
+        this.volume = volume;
         this.radiansPerSample = 2 * Math.PI * frequency / manager.sampleRate;
         this.voice = voice;
         this.requestedStopTime = 0;
@@ -100,7 +101,7 @@ function AudioManagerForWantOfABetterName() {
     }
     this.Note.prototype.getSample = function(tick) {
         var theta = (this.radiansPerSample * tick) % (2 * Math.PI);
-        return this.voice.oscillator.generator(theta) * this.getAmplitude(tick);
+        return this.volume * this.voice.oscillator.generator(theta) * this.getAmplitude(tick);
     }
     this.Note.prototype.stop = function() {
         this.requestedStopTime = manager.currentWritePosition;
@@ -111,7 +112,7 @@ function AudioManagerForWantOfABetterName() {
     this.startNote = function(frequency, volume, voice) {
         var note = new manager.Note(
             manager.currentWritePosition,
-            frequency, voice
+            frequency, volume, voice
         );
         playingNotes.push(note);
         return note;
