@@ -19,32 +19,38 @@ Some rights reserved: http://creativecommons.org/licenses/by-sa/3.0/
 
         <script type="text/javascript">
             $(function () {
-                function Key(name, frequency) {
+                var whiteKeyWidth = 21;
+                var backKeyWidth = 14;
+
+                function Key(name, frequency, color, topWidth, bottomWidth) {
                     this.name = name;
                     this.frequency = frequency;
+                    this.color = color;
+                    this.topWidth = topWidth;
+                    this.bottomWidth = bottomWidth;
                 }
 
                 var keys = {
-                    65: new Key('A', 440),
-                    87: new Key('A#/Bb', 466.16376151809),
-                    83: new Key('B', 493.883301256124),
-                    68: new Key('C', 523.251130601197),
-                    82: new Key('C#/Db', 554.365261953744),
-                    70: new Key('D', 587.329535834815),
-                    84: new Key('D#/Eb', 622.253967444162),
-                    71: new Key('E', 659.25511382574),
-                    72: new Key('F', 698.456462866008),
-                    85: new Key('F#/Gb', 739.988845423269),
-                    74: new Key('G', 783.990871963499),
-                    73: new Key('G#/Ab', 830.609395159891),
-                    75: new Key('A', 880),
-                    79: new Key('A#/Bb', 932.32752303618),
-                    76: new Key('B', 987.766602512249),
-                    59: new Key('C', 1046.50226120239),
-                    219: new Key('C#/Db', 1108.73052390749),
-                    192: new Key('D', 1174.65907166963),
-                    221: new Key('D#/Eb', 1244.50793488832),
-                    222: new Key('E', 1318.51022765148)
+                    65: new Key('C', 523.251130601197),
+                    87: new Key('C#/Db', 554.365261953744),
+                    83: new Key('D', 587.329535834815),
+                    69: new Key('D#/Eb', 622.253967444162),
+                    68: new Key('E', 659.25511382574),
+                    70: new Key('F', 698.456462866008),
+                    84: new Key('F#/Gb', 739.988845423269),
+                    71: new Key('G', 783.990871963499),
+                    89: new Key('G#/Ab', 830.609395159891),
+                    72: new Key('A', 880),
+                    85: new Key('A#/Bb', 932.32752303618),
+                    74: new Key('B', 987.766602512249),
+                    75: new Key('C', 1046.50226120239),
+                    79: new Key('C#/Db', 1108.73052390749),
+                    76: new Key('D', 1174.65907166963),
+                    80: new Key('D#/Eb', 1244.50793488832),
+                    59: new Key('E', 1318.51022765148),
+                    192: new Key('F', 1396.91292573202),
+                    221: new Key('F#/Gb', 1479.97769084654),
+                    222: new Key('G', 1567.981743927)
                 };
 
 
