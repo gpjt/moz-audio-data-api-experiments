@@ -13,44 +13,6 @@ function Voice(oscillator, attack, decay, sustain, release) {
 }
 
 
-function Note(startTime, frequency, voice) {
-    this.startTime = startTime;
-    this.frequency = frequency;
-    this.radiansPerSample = 2 * Math.PI * frequency / sampleRate;
-    this.voice = voice;
-    this.requestedStopTime = 0;
-    this.actualStopTime = 0;
-}
-Note.prototype.getAmplitude = function(offset) {
-    if (offset < this.startTime) {
-        return 0;
-    }
-    var t = offset - this.startTime;
-    if (t <= this.voice.attack) {
-        return t / this.voice.attack;
-    }
-    if (t <= this.voice.attack + this.voice.decay) {
-        return 1 - (((1 - this.voice.sustain) * (t - this.voice.attack)) / this.voice.decay);
-    }
-    if (this.requestedStopTime == 0) {
-        return this.voice.sustain;
-    }
-    // We ignore requests to stop until the attack/decay is complete; this means that
-    // our release can actually start later than requested
-    if (this.actualStopTime == 0) {
-        this.actualStopTime = offset;
-    }
-    if (offset < this.actualStopTime + this.voice.release) {
-        return this.voice.sustain - ((this.voice.sustain * (offset - this.actualStopTime)) / this.voice.release);
-    }
-    return 0;
-}
-Note.prototype.getSample = function(tick) {
-    var theta = (this.radiansPerSample * tick) % (2 * Math.PI);
-    return this.voice.oscillator.generator(theta) * this.getAmplitude(tick);
-}
-
-
 var sampleRate = 44100;
 
 
@@ -87,6 +49,44 @@ function AudioManagerForWantOfABetterName() {
             function() { return Math.random() * 2 - 1 }
         )
     };
+
+
+    this.Note = function(startTime, frequency, voice) {
+        this.startTime = startTime;
+        this.frequency = frequency;
+        this.radiansPerSample = 2 * Math.PI * frequency / sampleRate;
+        this.voice = voice;
+        this.requestedStopTime = 0;
+        this.actualStopTime = 0;
+    }
+    this.Note.prototype.getAmplitude = function(offset) {
+        if (offset < this.startTime) {
+            return 0;
+        }
+        var t = offset - this.startTime;
+        if (t <= this.voice.attack) {
+            return t / this.voice.attack;
+        }
+        if (t <= this.voice.attack + this.voice.decay) {
+            return 1 - (((1 - this.voice.sustain) * (t - this.voice.attack)) / this.voice.decay);
+        }
+        if (this.requestedStopTime == 0) {
+            return this.voice.sustain;
+        }
+        // We ignore requests to stop until the attack/decay is complete; this means that
+        // our release can actually start later than requested
+        if (this.actualStopTime == 0) {
+            this.actualStopTime = offset;
+        }
+        if (offset < this.actualStopTime + this.voice.release) {
+            return this.voice.sustain - ((this.voice.sustain * (offset - this.actualStopTime)) / this.voice.release);
+        }
+        return 0;
+    }
+    this.Note.prototype.getSample = function(tick) {
+        var theta = (this.radiansPerSample * tick) % (2 * Math.PI);
+        return this.voice.oscillator.generator(theta) * this.getAmplitude(tick);
+    }
 
 
     var manager = this;
