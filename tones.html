@@ -10,11 +10,9 @@
 
         <script type="text/javascript">
 
-
-            var note = null;
-
-
             function init() {
+                var note = null;
+
                 function getAmplitude(tick) {
                     if (note != null) {
                         return note.getSample(tick);
