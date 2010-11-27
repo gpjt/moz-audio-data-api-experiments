@@ -93,7 +93,7 @@ function AudioManagerForWantOfABetterName(getAmplitude) {
         return this.voice.oscillator.generator(theta) * this.getAmplitude(tick);
     }
     this.Note.prototype.stop = function() {
-        note.requestedStopTime = manager.currentWritePosition;
+        this.requestedStopTime = manager.currentWritePosition;
     }
     
     this.startNote = function(frequency, voice) {
