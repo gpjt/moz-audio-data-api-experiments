@@ -12,9 +12,6 @@
 
             var manager;
 
-            var portionSize = sampleRate / 100;
-            var prebufferSize = sampleRate / 4;
-
             var currentWritePosition = 0;
 
             function getSoundData(offset, size) {
@@ -41,10 +38,10 @@
                     parseFloat($("#id_freq").val()),
                     new Voice(
                         manager.oscillators[$("#id_oscillator").val()],
-                        (parseFloat($("#id_attack").val()) * sampleRate) / 1000,
-                        (parseFloat($("#id_decay").val()) * sampleRate) / 1000,
+                        (parseFloat($("#id_attack").val()) * manager.sampleRate) / 1000,
+                        (parseFloat($("#id_decay").val()) * manager.sampleRate) / 1000,
                         parseFloat($("#id_sustain").val()),
-                        (parseFloat($("#id_release").val()) * sampleRate) / 1000
+                        (parseFloat($("#id_release").val()) * manager.sampleRate) / 1000
                     )
                 );
             }

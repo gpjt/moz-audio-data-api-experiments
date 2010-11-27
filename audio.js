@@ -13,14 +13,15 @@ function Voice(oscillator, attack, decay, sustain, release) {
 }
 
 
-var sampleRate = 44100;
-
 
 // Developer's heuristic -- if you call something an XXManager, you don't really understand what it does...
 function AudioManagerForWantOfABetterName() {
+    this.sampleRate = 44100;
+    var portionSize = this.sampleRate / 100;
+    var prebufferSize = this.sampleRate / 4;
 
     this.audio = new Audio();
-    this.audio.mozSetup(1, sampleRate, 1);
+    this.audio.mozSetup(1, this.sampleRate, 1);
 
     this.oscillators = {
         "sine" : new Oscillator(
@@ -51,10 +52,13 @@ function AudioManagerForWantOfABetterName() {
     };
 
 
+    var manager = this;
+
+
     this.Note = function(startTime, frequency, voice) {
         this.startTime = startTime;
         this.frequency = frequency;
-        this.radiansPerSample = 2 * Math.PI * frequency / sampleRate;
+        this.radiansPerSample = 2 * Math.PI * frequency / manager.sampleRate;
         this.voice = voice;
         this.requestedStopTime = 0;
         this.actualStopTime = 0;
@@ -89,8 +93,6 @@ function AudioManagerForWantOfABetterName() {
     }
 
 
-    var manager = this;
-
     function writeData() {
         while (manager.audio.mozCurrentSampleOffset() + prebufferSize >= currentWritePosition) {
             var soundData = getSoundData(currentWritePosition, portionSize);
@@ -100,6 +102,6 @@ function AudioManagerForWantOfABetterName() {
     }
 
 
-    var writeInterval = Math.floor(1000 * portionSize / sampleRate);
+    var writeInterval = Math.floor(1000 * portionSize / this.sampleRate);
     setInterval(writeData, writeInterval);
 }
