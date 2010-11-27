@@ -88,8 +88,7 @@ function AudioManagerForWantOfABetterName() {
             return this.voice.sustain - ((this.voice.sustain * (offset - this.actualStopTime)) / this.voice.release);
         }
         // We're done.  There is doubtless a better way to remove a value from a JS list/array/object by its value
-        // than the following abomination; as they say, patches accepted.  At least we don't need to worry about
-        // multiple threads...
+        // than the following abomination; as they say, patches accepted.
         var newPlayingNotes = []
         for (var i in playingNotes) {
             if (playingNotes[i] != this) {
@@ -121,8 +120,11 @@ function AudioManagerForWantOfABetterName() {
 
     function getAmplitude(tick) {
         var result = 0;
-        for (var note in playingNotes) {
-            result += playingNotes[note].getSample(tick);
+        // JS may not be properly multithreaded, but a note could well time out and remove itself from
+        // the playing list while we're in the middle of this, so we work on a copy.
+        var storedPlayingNotes = playingNotes;
+        for (var note in storedPlayingNotes) {
+            result += storedPlayingNotes[note].getSample(tick);
         }
         return result;
     }
