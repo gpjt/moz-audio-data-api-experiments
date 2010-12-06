@@ -44,7 +44,8 @@
                     }
                 }
 
-                chord = new Chord($("#id_play"), [440, 660]);
+                chord = new Chord($("#id_play1"), [440, 660]);
+                chord = new Chord($("#id_play2"), [440, 660]);
 
             });
         </script>
@@ -68,7 +69,10 @@
         <table>
             <tr>
                 <td>
-                    <button id="id_play">Play</button>
+                    <button id="id_play1">Play chord 1</button>
+                </td>
+                <td>
+                    <button id="id_play2">Play chord 2</button>
                 </td>
             </tr>
         </table>
