@@ -20,16 +20,14 @@
                         note1.stop();
                     }
                     note1 = synth.startNote(
-                        parseFloat($("#id_freq1").val()),
-                        parseFloat($("#id_volume").val()),
+                        parseFloat($("#id_freq1").val()), 0.5,
                         new Voice(synth.oscillators.sine, 35, 35, 0.5, 500)
                     );
                     if (note2 != null) {
                         note2.stop();
                     }
                     note2 = synth.startNote(
-                        parseFloat($("#id_freq2").val()),
-                        parseFloat($("#id_volume").val()),
+                        parseFloat($("#id_freq2").val()), 0.5,
                         new Voice(synth.oscillators.sine, 35, 35, 0.5, 500)
                     );
                 }
@@ -65,14 +63,6 @@
 
 
         <table>
-            <tr>
-                <td>
-                    Volume:
-                </td>
-                <td>
-                    <input type="text" size="4" id="id_volume" value="0.5"> (ideally 0-1)
-                </td>
-            </tr>
             <tr>
                 <td>
                     Frequency 1:
