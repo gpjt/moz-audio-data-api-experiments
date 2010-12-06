@@ -10,32 +10,38 @@
 
         <script type="text/javascript">
             $(function() {
-                var note = null;
+                var note1 = null;
+                var note2 = null;
 
                 var synth = new Synth();
 
                 function start() {
-                    if (note != null) {
-                        note.stop();
+                    if (note1 != null) {
+                        note1.stop();
                     }
-                    note = synth.startNote(
-                        parseFloat($("#id_freq").val()),
+                    note1 = synth.startNote(
+                        parseFloat($("#id_freq1").val()),
                         parseFloat($("#id_volume").val()),
-                        new Voice(
-                            synth.oscillators.sine,
-                            parseFloat($("#id_attack").val()),
-                            parseFloat($("#id_decay").val()),
-                            parseFloat($("#id_sustain").val()),
-                            parseFloat($("#id_release").val())
-                        )
+                        new Voice(synth.oscillators.sine, 35, 35, 0.5, 500)
+                    );
+                    if (note2 != null) {
+                        note2.stop();
+                    }
+                    note2 = synth.startNote(
+                        parseFloat($("#id_freq2").val()),
+                        parseFloat($("#id_volume").val()),
+                        new Voice(synth.oscillators.sine, 35, 35, 0.5, 500)
                     );
                 }
                 $("#id_play").mousedown(start);
 
 
                 function stop() {
-                    if (note != null) {
-                        note.stop();
+                    if (note1 != null) {
+                        note1.stop();
+                    }
+                    if (note2 != null) {
+                        note2.stop();
                     }
                 }
                 $("#id_play").mouseup(stop);
@@ -51,6 +57,12 @@
         This page uses the <a href="https://wiki.mozilla.org/Audio_Data_API#Complete_Example:_Creating_a_Web_Based_Tone_Generator">Mozilla Audio Data API</a>,
         present in <a href="http://www.mozilla.com/firefox/beta/">Firefox 4.0 beta 6 and later</a>.  As of this writing (21 Nov 2010) it won't work in other browsers :-(
 
+        <p>
+        The ratios between the different pitches that we use in western music is a
+        carefully-worked-out compromise between a number of factors.  This has left
+        us in a situation where some chords actually sound nicer when they're slightly
+        out of tune.  Try playing the two below and see what you think.
+
 
         <table>
             <tr>
@@ -63,42 +75,18 @@
             </tr>
             <tr>
                 <td>
-                    Attack:
+                    Frequency 1:
                 </td>
                 <td>
-                    <input type="text" size="4" id="id_attack" value="35"> ms
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Decay:
-                </td>
-                <td>
-                    <input type="text" size="4" id="id_decay" value="35"> ms
+                    <input type="text" size="4" id="id_freq1" value="440"><label for="hz">Hz</label>
                 </td>
             </tr>
             <tr>
                 <td>
-                    Sustain:
+                    Frequency 2:
                 </td>
                 <td>
-                    <input type="text" size="4" id="id_sustain" value="0.5"> (amplitude, 0-1)
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Release:
-                </td>
-                <td>
-                    <input type="text" size="4" id="id_release" value="500"> ms
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Frequency:
-                </td>
-                <td>
-                    <input type="text" size="4" id="id_freq" value="440"><label for="hz">Hz</label>
+                    <input type="text" size="4" id="id_freq2" value="660"><label for="hz">Hz</label>
                 </td>
             </tr>
             <tr>
