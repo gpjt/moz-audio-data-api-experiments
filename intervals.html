@@ -12,8 +12,9 @@
             $(function() {
                 var synth = new Synth();
 
-                function Chord(button, frequencies) {
+                function Chord(button, volume, frequencies) {
                     this.frequencies = frequencies;
+                    this.volume = volume;
                     this.notes = [];
 
                     var chord = this;
@@ -25,7 +26,7 @@
                     for (frequencyIx in this.frequencies) {
                         this.notes.push(
                             synth.startNote(
-                                this.frequencies[frequencyIx], 0.5,
+                                this.frequencies[frequencyIx], this.volume,
                                 new Voice(synth.oscillators.sine, 35, 35, 0.5, 50)
                             )
                         );
@@ -37,8 +38,14 @@
                     }
                 }
 
-                new Chord($("#id_play1"), [220, 330]);
-                new Chord($("#id_play2"), [220, 329.62755691287]);
+                new Chord($("#id_play1_lo"), 0.6, [220, 330]);
+                new Chord($("#id_play2_lo"), 0.6, [220, 329.62755691287]);
+
+                new Chord($("#id_play1_med"), 0.5, [440, 660]);
+                new Chord($("#id_play2_med"), 0.5, [440, 659.25511382574]);
+
+                new Chord($("#id_play1_hi"), 0.2, [880, 1320]);
+                new Chord($("#id_play2_hi"), 0.2, [880, 1318.51022765148]);
 
             });
         </script>
@@ -55,17 +62,43 @@
         <p>
         The ratios between the different pitches that we use in western music is a
         carefully-worked-out compromise between a number of factors.  This has left
-        us in a situation where some chords actually sound nicer when they're slightly
-        out of tune.  Try playing the two below and see what you think.
+        us in a situation where some chords can actually sound very slightly nicer
+        when they're a tiny bit "out of tune".  Try playing the two below and see
+        what you think.
 
 
         <table>
             <tr>
                 <td>
-                    <button id="id_play1">Play chord 1</button>
+                    Low-pitched version:
                 </td>
                 <td>
-                    <button id="id_play2">Play chord 2</button>
+                    <button id="id_play1_lo">Play chord 1</button>
+                </td>
+                <td>
+                    <button id="id_play2_lo">Play chord 2</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Medium-pitched version:
+                </td>
+                <td>
+                    <button id="id_play1_med">Play chord 1</button>
+                </td>
+                <td>
+                    <button id="id_play2_med">Play chord 2</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    High-pitched version:
+                </td>
+                <td>
+                    <button id="id_play1_hi">Play chord 1</button>
+                </td>
+                <td>
+                    <button id="id_play2_hi">Play chord 2</button>
                 </td>
             </tr>
         </table>
