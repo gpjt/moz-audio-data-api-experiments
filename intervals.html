@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Tone generator: Audio Data API experiment</title>
+
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8" />
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+        <script type="text/javascript" src="synth.js"></script>
+
+        <script type="text/javascript">
+            $(function() {
+                var note = null;
+
+                var synth = new Synth();
+
+                function start() {
+                    if (note != null) {
+                        note.stop();
+                    }
+                    note = synth.startNote(
+                        parseFloat($("#id_freq").val()),
+                        parseFloat($("#id_volume").val()),
+                        new Voice(
+                            synth.oscillators.sine,
+                            (parseFloat($("#id_attack").val()) * synth.sampleRate) / 1000,
+                            (parseFloat($("#id_decay").val()) * synth.sampleRate) / 1000,
+                            parseFloat($("#id_sustain").val()),
+                            (parseFloat($("#id_release").val()) * synth.sampleRate) / 1000
+                        )
+                    );
+                }
+                $("#id_play").mousedown(start);
+
+
+                function stop() {
+                    if (note != null) {
+                        note.stop();
+                    }
+                }
+                $("#id_play").mouseup(stop);
+            });
+        </script>
+    </head>
+
+    <body>
+
+        <h1>A JavaScript tone generator</h1>
+
+        <p>
+        This page uses the <a href="https://wiki.mozilla.org/Audio_Data_API#Complete_Example:_Creating_a_Web_Based_Tone_Generator">Mozilla Audio Data API</a>,
+        present in <a href="http://www.mozilla.com/firefox/beta/">Firefox 4.0 beta 6 and later</a>.  As of this writing (21 Nov 2010) it won't work in other browsers :-(
+
+
+        <table>
+            <tr>
+                <td>
+                    Volume:
+                </td>
+                <td>
+                    <input type="text" size="4" id="id_volume" value="0.5"> (ideally 0-1)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Attack:
+                </td>
+                <td>
+                    <input type="text" size="4" id="id_attack" value="35"> ms
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Decay:
+                </td>
+                <td>
+                    <input type="text" size="4" id="id_decay" value="35"> ms
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Sustain:
+                </td>
+                <td>
+                    <input type="text" size="4" id="id_sustain" value="0.5"> (amplitude, 0-1)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Release:
+                </td>
+                <td>
+                    <input type="text" size="4" id="id_release" value="500"> ms
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Frequency:
+                </td>
+                <td>
+                    <input type="text" size="4" id="id_freq" value="440"><label for="hz">Hz</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="id_play">Play</button>
+                </td>
+            </tr>
+        </table>
+
+        <p>
+        Based on <a href="https://wiki.mozilla.org/Audio_Data_API#Complete_Example:_Creating_a_Web_Based_Tone_Generator">this Firefox Audio Data API demo</a>.
+        Inspiration from <a href="http://forums.dv247.com/tips-n-tricks-general-production/1079-synthesis-101-basics.html">this synthesizer 101 post</a>, and,
+        of course, <a href="http://en.wikipedia.org/wiki/Synthesizer">Wikipedia</a>.
+
+        <p>
+        <a href="index.html">&lt;&lt; Back to Audio Experiments index</a>
+
+        <div id="id_copyright">
+        By <a href="http://www.gilesthomas.com/">Giles Thomas</a>, 2010.  Some rights reserved: <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike license (CC-BY-SA)</a>.
+
+        <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+            try {
+                var pageTracker = _gat._getTracker("UA-2240015-3");
+                pageTracker._trackPageview();
+            } catch(err) {}
+        </script>
+
+    </body>
+</html>
