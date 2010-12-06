@@ -12,20 +12,20 @@
             $(function() {
                 var synth = new Synth();
 
-                function Chord(frequencies) {
+                function Chord(button, frequencies) {
                     this.frequencies = frequencies;
                     this.notes = [];
 
                     function start() {
                         chord.start();
                     }
-                    $("#id_play").mousedown(start);
+                    button.mousedown(start);
 
 
                     function stop() {
                         chord.stop();
                     }
-                    $("#id_play").mouseup(stop);
+                    button.mouseup(stop);
                 }
                 Chord.prototype.start = function() {
                     this.stop();
@@ -44,7 +44,7 @@
                     }
                 }
 
-                chord = new Chord([440, 660]);
+                chord = new Chord($("#id_play"), [440, 660]);
 
             });
         </script>
