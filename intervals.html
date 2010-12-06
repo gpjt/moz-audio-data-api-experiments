@@ -12,11 +12,11 @@
             $(function() {
                 var synth = new Synth();
 
-                function Interval(frequencies) {
+                function Chord(frequencies) {
                     this.frequencies = frequencies;
                     this.notes = [];
                 }
-                Interval.prototype.start = function() {
+                Chord.prototype.start = function() {
                     this.stop();
                     for (frequencyIx in this.frequencies) {
                         this.notes.push(
@@ -27,23 +27,23 @@
                         );
                     }
                 }
-                Interval.prototype.stop = function() {
+                Chord.prototype.stop = function() {
                     for (noteIx in this.notes) {
                         this.notes[noteIx].stop();
                     }
                 }
 
-                interval = new Interval([440, 660]);
+                chord = new Chord([440, 660]);
 
 
                 function start() {
-                    interval.start();
+                    chord.start();
                 }
                 $("#id_play").mousedown(start);
 
 
                 function stop() {
-                    interval.stop();
+                    chord.stop();
                 }
                 $("#id_play").mouseup(stop);
             });
