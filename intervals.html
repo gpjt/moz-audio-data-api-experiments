@@ -10,37 +10,50 @@
 
         <script type="text/javascript">
             $(function() {
-                var note1 = null;
-                var note2 = null;
-
                 var synth = new Synth();
 
+                function Interval(freq1, freq2) {
+                    this.freq1 = freq1;
+                    this.freq2 = freq2;
+                    this.note1 = null;
+                    this.note2 = null;
+                }
+                Interval.prototype.start = function() {
+                    if (this.note1 != null) {
+                        this.note1.stop();
+                    }
+                    this.note1 = synth.startNote(
+                        this.freq1, 0.5,
+                        new Voice(synth.oscillators.sine, 35, 35, 0.5, 500)
+                    );
+                    if (this.note2 != null) {
+                        this.note2.stop();
+                    }
+                    this.note2 = synth.startNote(
+                        this.freq2, 0.5,
+                        new Voice(synth.oscillators.sine, 35, 35, 0.5, 500)
+                    );
+                }
+                Interval.prototype.stop = function() {
+                    if (this.note1 != null) {
+                        this.note1.stop();
+                    }
+                    if (this.note2 != null) {
+                        this.note2.stop();
+                    }
+                }
+
+                interval = new Interval(440, 660);
+
+
                 function start() {
-                    if (note1 != null) {
-                        note1.stop();
-                    }
-                    note1 = synth.startNote(
-                        440, 0.5,
-                        new Voice(synth.oscillators.sine, 35, 35, 0.5, 500)
-                    );
-                    if (note2 != null) {
-                        note2.stop();
-                    }
-                    note2 = synth.startNote(
-                        660, 0.5,
-                        new Voice(synth.oscillators.sine, 35, 35, 0.5, 500)
-                    );
+                    interval.start();
                 }
                 $("#id_play").mousedown(start);
 
 
                 function stop() {
-                    if (note1 != null) {
-                        note1.stop();
-                    }
-                    if (note2 != null) {
-                        note2.stop();
-                    }
+                    interval.stop();
                 }
                 $("#id_play").mouseup(stop);
             });
