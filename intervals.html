@@ -17,16 +17,8 @@
                     this.notes = [];
 
                     var chord = this;
-                    function start() {
-                        chord.start();
-                    }
-                    button.mousedown(start);
-
-
-                    function stop() {
-                        chord.stop();
-                    }
-                    button.mouseup(stop);
+                    button.mousedown(function() { chord.start(); });
+                    button.mouseup(function() { chord.stop(); });
                 }
                 Chord.prototype.start = function() {
                     this.stop();
