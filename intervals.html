@@ -12,38 +12,28 @@
             $(function() {
                 var synth = new Synth();
 
-                function Interval(freq1, freq2) {
-                    this.freq1 = freq1;
-                    this.freq2 = freq2;
-                    this.note1 = null;
-                    this.note2 = null;
+                function Interval(frequencies) {
+                    this.frequencies = frequencies;
+                    this.notes = [];
                 }
                 Interval.prototype.start = function() {
-                    if (this.note1 != null) {
-                        this.note1.stop();
+                    this.stop();
+                    for (frequencyIx in this.frequencies) {
+                        this.notes.push(
+                            synth.startNote(
+                                this.frequencies[frequencyIx], 0.5,
+                                new Voice(synth.oscillators.sine, 35, 35, 0.5, 500)
+                            )
+                        );
                     }
-                    this.note1 = synth.startNote(
-                        this.freq1, 0.5,
-                        new Voice(synth.oscillators.sine, 35, 35, 0.5, 500)
-                    );
-                    if (this.note2 != null) {
-                        this.note2.stop();
-                    }
-                    this.note2 = synth.startNote(
-                        this.freq2, 0.5,
-                        new Voice(synth.oscillators.sine, 35, 35, 0.5, 500)
-                    );
                 }
                 Interval.prototype.stop = function() {
-                    if (this.note1 != null) {
-                        this.note1.stop();
-                    }
-                    if (this.note2 != null) {
-                        this.note2.stop();
+                    for (noteIx in this.notes) {
+                        this.notes[noteIx].stop();
                     }
                 }
 
-                interval = new Interval(440, 660);
+                interval = new Interval([440, 660]);
 
 
                 function start() {
