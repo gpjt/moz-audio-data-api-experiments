@@ -15,6 +15,17 @@
                 function Chord(frequencies) {
                     this.frequencies = frequencies;
                     this.notes = [];
+
+                    function start() {
+                        chord.start();
+                    }
+                    $("#id_play").mousedown(start);
+
+
+                    function stop() {
+                        chord.stop();
+                    }
+                    $("#id_play").mouseup(stop);
                 }
                 Chord.prototype.start = function() {
                     this.stop();
@@ -35,17 +46,6 @@
 
                 chord = new Chord([440, 660]);
 
-
-                function start() {
-                    chord.start();
-                }
-                $("#id_play").mousedown(start);
-
-
-                function stop() {
-                    chord.stop();
-                }
-                $("#id_play").mouseup(stop);
             });
         </script>
     </head>
