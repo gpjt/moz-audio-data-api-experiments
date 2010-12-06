@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
     <head>
-        <title>Tone generator: Audio Data API experiment</title>
+        <title>Musical emperament: Audio Data API experiment</title>
 
         <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8" />
 
@@ -16,6 +16,7 @@
                     this.frequencies = frequencies;
                     this.notes = [];
 
+                    var chord = this;
                     function start() {
                         chord.start();
                     }
@@ -33,7 +34,7 @@
                         this.notes.push(
                             synth.startNote(
                                 this.frequencies[frequencyIx], 0.5,
-                                new Voice(synth.oscillators.sine, 35, 35, 0.5, 500)
+                                new Voice(synth.oscillators.sine, 35, 35, 0.5, 50)
                             )
                         );
                     }
@@ -44,8 +45,8 @@
                     }
                 }
 
-                chord = new Chord($("#id_play1"), [440, 660]);
-                chord = new Chord($("#id_play2"), [440, 660]);
+                new Chord($("#id_play1"), [220, 330]);
+                new Chord($("#id_play2"), [220, 309.62755691287]);
 
             });
         </script>
@@ -53,7 +54,7 @@
 
     <body>
 
-        <h1>A JavaScript tone generator</h1>
+        <h1>Musical temperament</h1>
 
         <p>
         This page uses the <a href="https://wiki.mozilla.org/Audio_Data_API#Complete_Example:_Creating_a_Web_Based_Tone_Generator">Mozilla Audio Data API</a>,
