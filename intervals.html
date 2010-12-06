@@ -23,10 +23,10 @@
                         parseFloat($("#id_volume").val()),
                         new Voice(
                             synth.oscillators.sine,
-                            (parseFloat($("#id_attack").val()) * synth.sampleRate) / 1000,
-                            (parseFloat($("#id_decay").val()) * synth.sampleRate) / 1000,
+                            parseFloat($("#id_attack").val()),
+                            parseFloat($("#id_decay").val()),
                             parseFloat($("#id_sustain").val()),
-                            (parseFloat($("#id_release").val()) * synth.sampleRate) / 1000
+                            parseFloat($("#id_release").val())
                         )
                     );
                 }

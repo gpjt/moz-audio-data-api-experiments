@@ -52,7 +52,7 @@ function Synth() {
     };
 
 
-    var manager = this;
+    var synth = this;
 
     var playingNotes = [];
 
@@ -60,8 +60,12 @@ function Synth() {
         this.startTime = startTime;
         this.frequency = frequency;
         this.volume = volume;
-        this.radiansPerSample = 2 * Math.PI * frequency / manager.sampleRate;
-        this.voice = voice;
+        this.radiansPerSample = 2 * Math.PI * frequency / synth.sampleRate;
+        this.oscillator = voice.oscillator;
+        this.attack = (voice.attack * synth.sampleRate) / 1000;
+        this.decay = (voice.decay * synth.sampleRate) / 1000;
+        this.sustain = voice.sustain;
+        this.release = (voice.release * synth.sampleRate) / 1000;
         this.requestedStopTime = 0;
         this.actualStopTime = 0;
     }
@@ -70,22 +74,22 @@ function Synth() {
             return 0;
         }
         var t = offset - this.startTime;
-        if (t <= this.voice.attack) {
-            return t / this.voice.attack;
+        if (t <= this.attack) {
+            return t / this.attack;
         }
-        if (t <= this.voice.attack + this.voice.decay) {
-            return 1 - (((1 - this.voice.sustain) * (t - this.voice.attack)) / this.voice.decay);
+        if (t <= this.attack + this.decay) {
+            return 1 - (((1 - this.sustain) * (t - this.attack)) / this.decay);
         }
         if (this.requestedStopTime == 0) {
-            return this.voice.sustain;
+            return this.sustain;
         }
         // We ignore requests to stop until the attack/decay is complete; this means that
         // our release can actually start later than requested
         if (this.actualStopTime == 0) {
             this.actualStopTime = offset;
         }
-        if (offset < this.actualStopTime + this.voice.release) {
-            return this.voice.sustain - ((this.voice.sustain * (offset - this.actualStopTime)) / this.voice.release);
+        if (offset < this.actualStopTime + this.release) {
+            return this.sustain - ((this.sustain * (offset - this.actualStopTime)) / this.release);
         }
         // We're done.  There is doubtless a better way to remove a value from a JS list/array/object by its value
         // than the following abomination; as they say, patches accepted.
@@ -100,17 +104,17 @@ function Synth() {
     }
     this.Note.prototype.getSample = function(tick) {
         var theta = (this.radiansPerSample * tick) % (2 * Math.PI);
-        return this.volume * this.voice.oscillator.generator(theta) * this.getAmplitude(tick);
+        return this.volume * this.oscillator.generator(theta) * this.getAmplitude(tick);
     }
     this.Note.prototype.stop = function() {
-        this.requestedStopTime = manager.currentWritePosition;
+        this.requestedStopTime = synth.currentWritePosition;
     }
 
 
 
     this.startNote = function(frequency, volume, voice) {
-        var note = new manager.Note(
-            manager.currentWritePosition,
+        var note = new synth.Note(
+            synth.currentWritePosition,
             frequency, volume, voice
         );
         playingNotes.push(note);
@@ -139,10 +143,10 @@ function Synth() {
 
 
     function writeData() {
-        while (manager.audio.mozCurrentSampleOffset() + prebufferSize >= manager.currentWritePosition) {
-            var soundData = getSoundData(manager.currentWritePosition, portionSize);
-            manager.audio.mozWriteAudio(soundData);
-            manager.currentWritePosition += portionSize;
+        while (synth.audio.mozCurrentSampleOffset() + prebufferSize >= synth.currentWritePosition) {
+            var soundData = getSoundData(synth.currentWritePosition, portionSize);
+            synth.audio.mozWriteAudio(soundData);
+            synth.currentWritePosition += portionSize;
         }
     }
 
